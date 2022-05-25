@@ -1,12 +1,20 @@
 import * as chalk from 'chalk';
 import { CommanderStatic } from 'commander';
-import { InitAction } from '../actions';
+import { BuildAction, InitAction } from '../actions';
 import { ERROR_PREFIX } from '../lib/ui';
 import { InitCommand } from './init.command';
+import { BuildCommand } from './build.command';
+import { LinkCommand } from './link.command';
+import { LinkAction } from '../actions/link.action';
+import { TestCommand } from './test.command';
+import { TestAction } from '../actions/test.action';
 
 export class CommandLoader {
   public static load(program: CommanderStatic): void {
     new InitCommand(new InitAction()).load(program);
+    new BuildCommand(new BuildAction()).load(program);
+    new LinkCommand(new LinkAction()).load(program);
+    new TestCommand(new TestAction()).load(program);
 
     this.handleInvalidCommand(program);
   }
