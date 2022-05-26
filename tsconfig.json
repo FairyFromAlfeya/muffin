@@ -19,7 +19,7 @@
     "cli/bin",
     "cli/commands",
     "cli/lib",
-    "src",
+    "lib",
     "index.ts"
   ],
   "exclude": ["node_modules", "e2e",
