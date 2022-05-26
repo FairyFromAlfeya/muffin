@@ -19,7 +19,8 @@
     "cli/bin",
     "cli/commands",
     "cli/lib",
-    "src"
+    "src",
+    "index.ts"
   ],
   "exclude": ["node_modules", "e2e",
     "cli/lib/schematic"

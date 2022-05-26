@@ -15,7 +15,10 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.utils = void 0;
-__exportStar(require("./keys"), exports);
-exports.utils = require("./utils");
-__exportStar(require("./factory"), exports);
-__exportStar(require("./giver"), exports);
+const core_1 = require("@tonclient/core");
+const lib_node_1 = require("@tonclient/lib-node");
+core_1.TonClient.useBinaryLibrary(lib_node_1.libNode);
+__exportStar(require("./lib/keys"), exports);
+exports.utils = require("./lib/utils");
+__exportStar(require("./lib/factory"), exports);
+__exportStar(require("./lib/giver"), exports);
