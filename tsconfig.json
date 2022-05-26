@@ -18,7 +18,8 @@
     "cli/actions",
     "cli/bin",
     "cli/commands",
-    "cli/lib"
+    "cli/lib",
+    "src"
   ],
   "exclude": ["node_modules", "e2e",
     "cli/lib/schematic"
