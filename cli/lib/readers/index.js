@@ -14,13 +14,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.utils = void 0;
-const core_1 = require("@tonclient/core");
-const lib_node_1 = require("@tonclient/lib-node");
-core_1.TonClient.useBinaryLibrary(lib_node_1.libNode);
-__exportStar(require("./lib/keys"), exports);
-exports.utils = require("./lib/utils");
-__exportStar(require("./lib/factory"), exports);
-__exportStar(require("./lib/giver"), exports);
-__exportStar(require("./lib/contract"), exports);
-__exportStar(require("./lib/account"), exports);
+__exportStar(require("./reader"), exports);
+__exportStar(require("./file-system.reader"), exports);

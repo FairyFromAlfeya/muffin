@@ -2,7 +2,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const commander = require("commander");
-const index_1 = require("../commands/index");
+const commands_1 = require("../commands");
 const local_binaries_1 = require("../lib/utils/local-binaries");
 const PackageJson = require("../../package.json");
 const bootstrap = () => {
@@ -16,7 +16,7 @@ const bootstrap = () => {
         localCommandLoader.load(program);
     }
     else {
-        index_1.CommandLoader.load(program);
+        commands_1.CommandLoader.load(program);
     }
     commander.parse(process.argv);
     if (!process.argv.slice(2).length) {

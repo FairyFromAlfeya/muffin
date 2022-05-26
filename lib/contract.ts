@@ -67,10 +67,10 @@ export class Contract {
   }
 
   async run({
-              method,
-              params,
-              keyPair,
-            }: {
+    method,
+    params,
+    keyPair,
+  }: {
     method: any;
     params: any;
     keyPair?: any;

@@ -1,7 +1,7 @@
 import { AbstractRunner } from './abstract.runner';
 
 export class CompilerRunner extends AbstractRunner {
-  constructor() {
-    super('solc-ton');
+  constructor(compiler: string) {
+    super(compiler);
   }
 }

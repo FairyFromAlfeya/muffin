@@ -1,9 +1,10 @@
-import { Input } from '../commands/index';
+import { Input } from '../commands';
 import { AbstractAction } from './abstract.action';
-import { Runner, RunnerFactory } from '../lib/runners/index';
+import { Runner, RunnerFactory } from '../lib/runners';
 import { join } from 'path';
 import { CompilerRunner } from '../lib/runners/compiler.runner';
 import * as fs from 'fs';
+import { loadConfiguration } from '../lib/utils/load-configuration';
 
 export class LinkAction extends AbstractAction {
   public async handle(inputs: Input[], options: Input[]) {
@@ -14,7 +15,8 @@ export class LinkAction extends AbstractAction {
 }
 
 const linkContracts = async () => {
-  const runner = RunnerFactory.create(Runner.LINKER) as CompilerRunner;
+  const configuration = await loadConfiguration();
+  const runner = RunnerFactory.create(Runner.LINKER, configuration?.build?.linker?.path) as CompilerRunner;
   const runnerBase64 = RunnerFactory.create(Runner.BASE64) as CompilerRunner;
 
   const files = fs.readdirSync(join(process.cwd(), 'build'), { withFileTypes: true });

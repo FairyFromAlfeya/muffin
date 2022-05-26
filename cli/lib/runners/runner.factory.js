@@ -9,14 +9,14 @@ const linker_runner_1 = require("./linker.runner");
 const tester_runner_1 = require("./tester.runner");
 const base64_runner_1 = require("./base64.runner");
 class RunnerFactory {
-    static create(runner) {
+    static create(runner, options) {
         switch (runner) {
             case runner_1.Runner.COPIER:
                 return new copier_runner_1.CopierRunner();
             case runner_1.Runner.COMPILER:
-                return new compiler_runner_1.CompilerRunner();
+                return new compiler_runner_1.CompilerRunner(options);
             case runner_1.Runner.LINKER:
-                return new linker_runner_1.LinkerRunner();
+                return new linker_runner_1.LinkerRunner(options);
             case runner_1.Runner.TESTER:
                 return new tester_runner_1.TesterRunner();
             case runner_1.Runner.BASE64:

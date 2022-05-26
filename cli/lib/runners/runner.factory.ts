@@ -7,14 +7,14 @@ import { TesterRunner } from './tester.runner';
 import { Base64Runner } from './base64.runner';
 
 export class RunnerFactory {
-  public static create(runner: Runner) {
+  public static create(runner: Runner, options?: any) {
     switch (runner) {
       case Runner.COPIER:
         return new CopierRunner();
       case Runner.COMPILER:
-        return new CompilerRunner();
+        return new CompilerRunner(options);
       case Runner.LINKER:
-        return new LinkerRunner();
+        return new LinkerRunner(options);
       case Runner.TESTER:
         return new TesterRunner();
       case Runner.BASE64:

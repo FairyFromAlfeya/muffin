@@ -11,12 +11,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BuildAction = void 0;
 const abstract_action_1 = require("./abstract.action");
-const index_1 = require("../lib/runners/index");
+const runners_1 = require("../lib/runners");
 const path_1 = require("path");
 const glob_1 = require("glob");
+const load_configuration_1 = require("../lib/utils/load-configuration");
 class BuildAction extends abstract_action_1.AbstractAction {
     handle(inputs, options) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('Compile contracts');
             yield compileContracts().catch(() => process.exit(1));
             process.exit(0);
         });
@@ -24,7 +26,10 @@ class BuildAction extends abstract_action_1.AbstractAction {
 }
 exports.BuildAction = BuildAction;
 const compileContracts = () => __awaiter(void 0, void 0, void 0, function* () {
-    const runner = index_1.RunnerFactory.create(index_1.Runner.COMPILER);
+    var _a, _b;
+    const configuration = yield (0, load_configuration_1.loadConfiguration)();
+    console.log(configuration);
+    const runner = runners_1.RunnerFactory.create(runners_1.Runner.COMPILER, (_b = (_a = configuration === null || configuration === void 0 ? void 0 : configuration.build) === null || _a === void 0 ? void 0 : _a.compiler) === null || _b === void 0 ? void 0 : _b.path);
     const files = (0, glob_1.sync)('contracts/**/*.sol', { cwd: process.cwd() });
     console.log(files);
     for (const file of files) {

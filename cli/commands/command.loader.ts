@@ -1,7 +1,7 @@
 import * as chalk from 'chalk';
 import { CommanderStatic } from 'commander';
-import { BuildAction, InitAction } from '../actions/index';
-import { ERROR_PREFIX } from '../lib/ui/index';
+import { BuildAction, InitAction } from '../actions';
+import { ERROR_PREFIX } from '../lib/ui';
 import { InitCommand } from './init.command';
 import { BuildCommand } from './build.command';
 import { LinkCommand } from './link.command';

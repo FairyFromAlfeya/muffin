@@ -11,9 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LinkAction = void 0;
 const abstract_action_1 = require("./abstract.action");
-const index_1 = require("../lib/runners/index");
+const runners_1 = require("../lib/runners");
 const path_1 = require("path");
 const fs = require("fs");
+const load_configuration_1 = require("../lib/utils/load-configuration");
 class LinkAction extends abstract_action_1.AbstractAction {
     handle(inputs, options) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -24,8 +25,10 @@ class LinkAction extends abstract_action_1.AbstractAction {
 }
 exports.LinkAction = LinkAction;
 const linkContracts = () => __awaiter(void 0, void 0, void 0, function* () {
-    const runner = index_1.RunnerFactory.create(index_1.Runner.LINKER);
-    const runnerBase64 = index_1.RunnerFactory.create(index_1.Runner.BASE64);
+    var _a, _b;
+    const configuration = yield (0, load_configuration_1.loadConfiguration)();
+    const runner = runners_1.RunnerFactory.create(runners_1.Runner.LINKER, (_b = (_a = configuration === null || configuration === void 0 ? void 0 : configuration.build) === null || _a === void 0 ? void 0 : _a.linker) === null || _b === void 0 ? void 0 : _b.path);
+    const runnerBase64 = runners_1.RunnerFactory.create(runners_1.Runner.BASE64);
     const files = fs.readdirSync((0, path_1.join)(process.cwd(), 'build'), { withFileTypes: true });
     for (const file of files) {
         if (file.isFile() && file.name.endsWith('.code')) {
