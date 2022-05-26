@@ -1,0 +1,14 @@
+{
+  "name": "muffin-project",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@broxus/contracts": "1.0.4",
+    "locklift": "1.5.3",
+    "chai": "4.3.6"
+  }
+}
