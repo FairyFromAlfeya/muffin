@@ -24,3 +24,4 @@ __exportStar(require("./lib/factory"), exports);
 __exportStar(require("./lib/giver"), exports);
 __exportStar(require("./lib/contract"), exports);
 __exportStar(require("./lib/account"), exports);
+__exportStar(require("./lib/migration"), exports);

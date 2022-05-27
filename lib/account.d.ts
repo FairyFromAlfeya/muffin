@@ -9,7 +9,7 @@ export declare class Account extends Contract {
         contract: Contract;
         method: string;
         params?: Record<string, any>;
-        value: BigNumber;
+        value?: BigNumber;
         keyPair: KeyPair;
     }): Promise<ResultOfProcessMessage>;
 }

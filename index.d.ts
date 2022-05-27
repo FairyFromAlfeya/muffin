@@ -4,4 +4,5 @@ export * from './lib/factory';
 export * from './lib/giver';
 export * from './lib/contract';
 export * from './lib/account';
+export * from './lib/migration';
 export { KeyPair } from '@tonclient/core/dist/modules';

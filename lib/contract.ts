@@ -106,15 +106,11 @@ export class Contract {
     });
   }
 
-  async call({
-      method,
-      params,
-      keyPair
-  }: {
-    method: string;
-    params: Record<string, any>;
+  async call(
+    method: string,
+    params?: Record<string, any>,
     keyPair?: KeyPair
-  }): Promise<Record<string, any>> {
+  ): Promise<Record<string, any>> {
     const extendedParams = params || {};
 
     if (this.autoAnswerIdOnCall) {

@@ -35,11 +35,7 @@ export declare class Contract {
         };
         abi: AbiContract;
     }): Promise<ResultOfProcessMessage>;
-    call({ method, params, keyPair }: {
-        method: string;
-        params: Record<string, any>;
-        keyPair?: KeyPair;
-    }): Promise<Record<string, any>>;
+    call(method: string, params?: Record<string, any>, keyPair?: KeyPair): Promise<Record<string, any>>;
     decodeMessages(messages: {
         body: string;
         id: string;
