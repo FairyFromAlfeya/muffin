@@ -1,83 +1,58 @@
-import { TonClient } from '@tonclient/core';
-import { ParamsOfEncodeMessage } from '@tonclient/core/dist/modules';
+import { AbiContract, DecodedMessageBody, ResultOfEncodeMessage, ResultOfProcessMessage, TonClient } from '@tonclient/core';
+import { ParamsOfEncodeMessage, KeyPair } from '@tonclient/core/dist/modules';
 export declare class Contract {
     client: TonClient;
-    abi: any;
-    base64: any;
-    code: any;
+    abi: Record<string, any>;
+    base64: string;
+    code?: string;
     name: string;
     address?: string;
-    keyPair: any;
-    afterRun: any;
+    keyPair?: KeyPair;
+    afterRun: (tx: ResultOfProcessMessage) => Promise<any>;
     autoAnswerIdOnCall: boolean;
     autoRandomNonce: boolean;
     constructor({ abi, base64, code, name, address, keyPair, autoAnswerIdOnCall, autoRandomNonce, afterRun, }: {
-        abi: any;
-        base64?: any;
-        code?: any;
-        name: any;
+        abi: Record<string, any>;
+        base64?: string;
+        code?: string;
+        name: string;
         address?: string;
-        keyPair?: any;
-        autoAnswerIdOnCall?: any;
+        keyPair?: KeyPair;
+        autoAnswerIdOnCall?: boolean;
         autoRandomNonce?: boolean;
-        afterRun?: any;
+        afterRun?: (tx: ResultOfProcessMessage) => Promise<any>;
     });
-    /**
-     * Set contract address
-     * @param address
-     */
     setAddress(address: string): void;
-    /**
-     * Set key pair to use for interacting with contract.
-     * @param keyPair
-     */
-    setKeyPair(keyPair: any): void;
+    setKeyPair(keyPair: KeyPair): void;
     run({ method, params, keyPair, }: {
-        method: any;
-        params: any;
-        keyPair?: any;
-    }): Promise<import("@tonclient/core").ResultOfProcessMessage>;
+        method: string;
+        params: Record<string, any>;
+        keyPair?: KeyPair;
+    }): Promise<ResultOfProcessMessage>;
     waitForRunTransaction({ message, abi }: {
-        message: any;
-        abi: any;
-    }): Promise<import("@tonclient/core").ResultOfProcessMessage>;
+        message: {
+            message: string;
+        };
+        abi: AbiContract;
+    }): Promise<ResultOfProcessMessage>;
     call({ method, params, keyPair }: {
         method: string;
-        params: any;
-        keyPair: any;
-    }): Promise<any>;
-    decodeMessages(messages: any[], is_internal: boolean): Promise<{
-        messageId: any;
-        src: any;
-        created_at: any;
-        body_type: import("@tonclient/core").MessageBodyType;
-        name: string;
-        value?: any;
-        header?: import("@tonclient/core").FunctionHeader | undefined;
-    }[]>;
-    getSentMessages(messageType: any, internal: boolean): Promise<{
-        messageId: any;
-        src: any;
-        created_at: any;
-        body_type: import("@tonclient/core").MessageBodyType;
-        name: string;
-        value?: any;
-        header?: import("@tonclient/core").FunctionHeader | undefined;
-    }[]>;
-    getEvents(eventName: string): Promise<{
-        messageId: any;
-        src: any;
-        created_at: any;
-        body_type: import("@tonclient/core").MessageBodyType;
-        name: string;
-        value?: any;
-        header?: import("@tonclient/core").FunctionHeader | undefined;
-    }[]>;
+        params: Record<string, any>;
+        keyPair?: KeyPair;
+    }): Promise<Record<string, any>>;
+    decodeMessages(messages: {
+        body: string;
+        id: string;
+        src: string;
+        created_at: number;
+    }[], is_internal: boolean): Promise<DecodedMessageBody[]>;
+    getSentMessages(messageType: number, internal: boolean): Promise<DecodedMessageBody[]>;
+    getEvents(eventName: string): Promise<DecodedMessageBody[]>;
     createRunMessage({ contract, method, params, keyPair }: {
-        contract: any;
+        contract: Contract;
         method: string;
-        params: any;
-        keyPair: any;
-    }): Promise<import("@tonclient/core").ResultOfEncodeMessage>;
-    enrichMessageWithKeys(encodeParams: any, keyPair: any): ParamsOfEncodeMessage;
+        params: Record<string, any>;
+        keyPair?: KeyPair;
+    }): Promise<ResultOfEncodeMessage>;
+    enrichMessageWithKeys(encodeParams: ParamsOfEncodeMessage, keyPair?: KeyPair): ParamsOfEncodeMessage;
 }

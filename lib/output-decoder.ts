@@ -1,15 +1,27 @@
 import { BigNumber } from 'bignumber.js';
 
-export class OutputDecoder {
-  output: any;
-  functionAttributes: any;
+interface Schema {
+  name: string;
+  type: string,
+  components: Schema[]
+}
 
-  constructor(output: any, functionAttributes: any) {
+interface FunctionAttributes {
+  name: string;
+  inputs: Schema[],
+  outputs: Schema[]
+}
+
+export class OutputDecoder {
+  output: Record<string, any>;
+  functionAttributes: FunctionAttributes;
+
+  constructor(output: Record<string, any>, functionAttributes: FunctionAttributes) {
     this.output = output;
     this.functionAttributes = functionAttributes;
   }
 
-  decode_value(encoded_value: any, schema: any) {
+  decode_value(encoded_value: string & string[] & BigNumber.Value, schema: Schema) {
     switch (schema.type) {
       case 'bytes':
         return this.decodeBytes(encoded_value);
@@ -57,33 +69,32 @@ export class OutputDecoder {
     }
   }
 
-  decodeBytes(value: string) {
+  decodeBytes(value: string): Buffer {
     return Buffer.from(value, 'hex');
   }
 
-  decodeBytesArray(value: string[]) {
+  decodeBytesArray(value: string[]): Buffer[] {
     return value.map((v) => this.decodeBytes(v));
   }
 
-  decodeBool(value: any) {
+  decodeBool(value: any): boolean {
     return Boolean(value);
   }
 
-  decodeInt(value: BigNumber.Value) {
+  decodeInt(value: BigNumber.Value): BigNumber {
     return new BigNumber(value);
   }
 
-  decodeIntArray(value: BigNumber.Value[]) {
+  decodeIntArray(value: BigNumber.Value[]): BigNumber[] {
     return value.map((hexInt) => this.decodeInt(hexInt));
   }
 
-  decode() {
+  decode(): Record<string, any> {
     const outputDecoded = this.decodeTuple(
       this.output,
       this.functionAttributes.outputs,
     );
 
-    // Return single output without array notation
     if (Object.keys(outputDecoded).length === 1) {
       return Object.values(outputDecoded)[0];
     }
@@ -91,10 +102,10 @@ export class OutputDecoder {
     return outputDecoded;
   }
 
-  decodeTuple(value: any, schema: any) {
+  decodeTuple(value: Record<string, any>, schema: Schema[]) {
     const res_struct: Record<string, any> = {};
 
-    schema.forEach((field_value_schema: { name: string }) => {
+    schema.forEach((field_value_schema) => {
       const field_value = value[field_value_schema.name];
       res_struct[field_value_schema.name] = this.decode_value(
         field_value,

@@ -1,11 +1,8 @@
 import { Contract } from './contract';
 import { convertCrystal, getRandomNonce } from './utils';
-import { TonClient } from '@tonclient/core';
+import { AbiContract, ResultOfEncodeMessage, ResultOfProcessMessage, TonClient } from '@tonclient/core';
+import { KeyPair, ParamsOfEncodeMessage } from '@tonclient/core/dist/modules';
 
-/**
- * Locklift plugin for working with classic givers.
- * Supports giver from local-node and any compatible one
- */
 export class Giver {
   client = new TonClient({ network: { server_address: 'http://localhost:80/' } });
   giver = new Contract({
@@ -22,25 +19,21 @@ export class Giver {
     name: 'Giver',
   });
 
-  /**
-   * Deploys contract by using giver.
-   * 1. Derives contract address
-   * 2. Sends specified amount of TONs to address
-   * 3. Waits for balance to be replenished
-   * 4. Deploys contract and setup address
-   * @param contract Contract instance to deploy
-   * @param constructorParams Constructor parameters data
-   * @param initParams Initial data
-   * @param keyPair Key pair to use
-   * @param [amount=locklift.utils.convertCrystal(10, 'nano')] Amount in nano TONs to request from giver
-   * @returns {Promise<*>}
-   */
-  async deployContract(
-    { contract, constructorParams, initParams, keyPair }: { contract: any; constructorParams: any; initParams: any; keyPair: any },
+  async deployContract({
+    contract,
+    constructorParams,
+    initParams,
+    keyPair
+  }: {
+    contract: Contract;
+    constructorParams: Record<string, any>;
+    initParams: Record<string, any>;
+    keyPair: KeyPair
+  },
     amount = convertCrystal(10, 'nano'),
-  ) {
+  ): Promise<Contract> {
     // Extend init params with random _randomNonce if it's found in ABI and autoRandomNonce is enabled
-    const extendedInitParams = initParams === undefined ? {} : initParams;
+    const extendedInitParams = initParams || {};
 
     if (contract.autoRandomNonce) {
       if (contract.abi.data.find((e: { name: string }) => e.name === '_randomNonce')) {
@@ -94,7 +87,7 @@ export class Giver {
     return contract;
   }
 
-  async waitForRunTransaction({ message, abi }: { message: any; abi: any }) {
+  async waitForRunTransaction({ message, abi }: { message: { message: string }; abi: AbiContract }): Promise<ResultOfProcessMessage> {
     const { shard_block_id } =
       await this.client.processing.send_message({
         message: message.message,
@@ -118,12 +111,12 @@ export class Giver {
     initParams,
     keyPair,
   }: {
-    contract: any;
-    constructorParams: any;
-    initParams: any;
-    keyPair: any;
-  }) {
-    const encodeParams = {
+    contract: Contract;
+    constructorParams: Record<string, any>;
+    initParams: Record<string, any>;
+    keyPair: KeyPair;
+  }): Promise<ResultOfEncodeMessage> {
+    const encodeParams: ParamsOfEncodeMessage = {
       abi: {
         type: 'Contract',
         value: contract.abi,
@@ -134,20 +127,18 @@ export class Giver {
       },
       call_set: {
         function_name: 'constructor',
-        input: constructorParams === undefined ? {} : constructorParams,
+        input: constructorParams || {},
       },
       signer: {
         type: 'None',
       },
     };
 
-    return this.client.abi.encode_message(
-      this.enrichMessageWithKeys(encodeParams, keyPair),
-    );
+    return this.client.abi.encode_message(this.enrichMessageWithKeys(encodeParams, keyPair));
   }
 
-  enrichMessageWithKeys(encodeParams: any, keyPair: any) {
-    return keyPair === undefined
+  enrichMessageWithKeys(encodeParams: ParamsOfEncodeMessage, keyPair?: KeyPair): ParamsOfEncodeMessage {
+    return !keyPair
       ? encodeParams
       : {
         ...encodeParams,

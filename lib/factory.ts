@@ -7,7 +7,7 @@ import { TonClient } from '@tonclient/core';
 class Factory {
   client = new TonClient({ network: { server_address: 'http://localhost:80/' } });
 
-  async initializeContract(name: string, resolvedPath: string) {
+  async initializeContract(name: string, resolvedPath: string): Promise<Contract> {
     const base64 = loadBase64FromFile(`${resolvedPath}/${name}.base64`);
     const abi = loadJSONFromFile(`${resolvedPath}/${name}.abi.json`);
 
@@ -23,13 +23,13 @@ class Factory {
     });
   }
 
-  async getContract(name: string, build = 'build') {
+  async getContract(name: string, build = 'build'): Promise<Contract> {
     const resolvedBuildPath = resolve(process.cwd(), build);
 
     return this.initializeContract(name, resolvedBuildPath);
   }
 
-  async getAccount(name = 'Account', build = 'build') {
+  async getAccount(name = 'Account', build = 'build'): Promise<Account> {
     const resolvedBuildPath = resolve(process.cwd(), build);
 
     const contract = await this.initializeContract(name, resolvedBuildPath);

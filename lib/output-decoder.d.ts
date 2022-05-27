@@ -1,15 +1,26 @@
 /// <reference types="node" />
 import { BigNumber } from 'bignumber.js';
+interface Schema {
+    name: string;
+    type: string;
+    components: Schema[];
+}
+interface FunctionAttributes {
+    name: string;
+    inputs: Schema[];
+    outputs: Schema[];
+}
 export declare class OutputDecoder {
-    output: any;
-    functionAttributes: any;
-    constructor(output: any, functionAttributes: any);
-    decode_value(encoded_value: any, schema: any): any;
+    output: Record<string, any>;
+    functionAttributes: FunctionAttributes;
+    constructor(output: Record<string, any>, functionAttributes: FunctionAttributes);
+    decode_value(encoded_value: string & string[] & BigNumber.Value, schema: Schema): boolean | Record<string, any>;
     decodeBytes(value: string): Buffer;
     decodeBytesArray(value: string[]): Buffer[];
     decodeBool(value: any): boolean;
     decodeInt(value: BigNumber.Value): BigNumber;
     decodeIntArray(value: BigNumber.Value[]): BigNumber[];
-    decode(): any;
-    decodeTuple(value: any, schema: any): Record<string, any>;
+    decode(): Record<string, any>;
+    decodeTuple(value: Record<string, any>, schema: Schema[]): Record<string, any>;
 }
+export {};

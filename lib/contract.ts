@@ -1,16 +1,23 @@
 import { OutputDecoder } from './output-decoder';
-import { TonClient } from '@tonclient/core';
-import { ParamsOfEncodeMessage } from '@tonclient/core/dist/modules';
+import {
+  AbiContract,
+  DecodedMessageBody,
+  ResultOfEncodeMessage,
+  ResultOfProcessMessage,
+  TonClient,
+} from '@tonclient/core';
+import { ParamsOfEncodeMessage, KeyPair } from '@tonclient/core/dist/modules';
 
 export class Contract {
   client = new TonClient({ network: { server_address: 'http://localhost:80/' } });
-  abi: any;
-  base64: any;
-  code: any;
+
+  abi: Record<string, any>;
+  base64: string;
+  code?: string;
   name: string;
   address?: string;
-  keyPair: any;
-  afterRun: any;
+  keyPair?: KeyPair;
+  afterRun: (tx: ResultOfProcessMessage) => Promise<any>;
   autoAnswerIdOnCall: boolean;
   autoRandomNonce: boolean;
 
@@ -25,44 +32,33 @@ export class Contract {
     autoRandomNonce,
     afterRun,
   }: {
-    abi: any;
-    base64?: any;
-    code?: any;
-    name: any;
+    abi: Record<string, any>;
+    base64?: string;
+    code?: string;
+    name: string;
     address?: string;
-    keyPair?: any;
-    autoAnswerIdOnCall?: any;
+    keyPair?: KeyPair;
+    autoAnswerIdOnCall?: boolean;
     autoRandomNonce?: boolean;
-    afterRun?: any;
+    afterRun?: (tx: ResultOfProcessMessage) => Promise<any>;
   }) {
     this.abi = abi;
-    this.base64 = base64;
+    this.base64 = base64 || '';
     this.code = code;
     this.name = name;
     this.address = address;
     this.keyPair = keyPair;
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    this.afterRun = afterRun === undefined ? async () => {} : afterRun;
+    this.afterRun = afterRun === undefined ? async () => ({ success: true }) : afterRun;
 
-    this.autoAnswerIdOnCall =
-      autoAnswerIdOnCall === undefined ? true : autoAnswerIdOnCall;
-    this.autoRandomNonce =
-      autoRandomNonce === undefined ? true : autoRandomNonce;
+    this.autoAnswerIdOnCall = autoAnswerIdOnCall || true;
+    this.autoRandomNonce = autoRandomNonce || true;
   }
 
-  /**
-   * Set contract address
-   * @param address
-   */
   setAddress(address: string) {
     this.address = address;
   }
 
-  /**
-   * Set key pair to use for interacting with contract.
-   * @param keyPair
-   */
-  setKeyPair(keyPair: any) {
+  setKeyPair(keyPair: KeyPair) {
     this.keyPair = keyPair;
   }
 
@@ -71,18 +67,18 @@ export class Contract {
     params,
     keyPair,
   }: {
-    method: any;
-    params: any;
-    keyPair?: any;
-  }) {
+    method: string;
+    params: Record<string, any>;
+    keyPair?: KeyPair;
+  }): Promise<ResultOfProcessMessage> {
     const message = await this.createRunMessage({
       contract: this,
       method,
-      params: params === undefined ? {} : params,
-      keyPair: keyPair === undefined ? this.keyPair : keyPair,
+      params: params || {},
+      keyPair: keyPair || this.keyPair,
     });
 
-    const tx = this.waitForRunTransaction({
+    const tx = await this.waitForRunTransaction({
       message,
       abi: this.abi,
     });
@@ -92,7 +88,7 @@ export class Contract {
     return tx;
   }
 
-  async waitForRunTransaction({ message, abi }: { message: any; abi: any }) {
+  async waitForRunTransaction({ message, abi }: { message: { message: string }; abi: AbiContract }): Promise<ResultOfProcessMessage> {
     const { shard_block_id } =
       await this.client.processing.send_message({
         message: message.message,
@@ -110,8 +106,16 @@ export class Contract {
     });
   }
 
-  async call({ method, params, keyPair }: { method: string; params: any; keyPair: any }) {
-    const extendedParams = params === undefined ? {} : params;
+  async call({
+      method,
+      params,
+      keyPair
+  }: {
+    method: string;
+    params: Record<string, any>;
+    keyPair?: KeyPair
+  }): Promise<Record<string, any>> {
+    const extendedParams = params || {};
 
     if (this.autoAnswerIdOnCall) {
       if (
@@ -119,17 +123,13 @@ export class Contract {
           .find((e: { name: string }) => e.name === method)
           .inputs.find((e: { name: string }) => e.name === '_answer_id')
       ) {
-        extendedParams._answer_id =
-          extendedParams._answer_id === undefined
-            ? 1
-            : extendedParams._answer_id;
+        extendedParams._answer_id = extendedParams._answer_id || 1;
       } else if (
         this.abi.functions
           .find((e: { name: string }) => e.name === method)
           .inputs.find((e: { name: string }) => e.name === 'answerId')
       ) {
-        extendedParams.answerId =
-          extendedParams.answerId === undefined ? 1 : extendedParams.answerId;
+        extendedParams.answerId = extendedParams.answerId || 1;
       }
     }
 
@@ -137,34 +137,24 @@ export class Contract {
       contract: this,
       method,
       params: extendedParams,
-      keyPair: keyPair === undefined ? this.keyPair : keyPair,
+      keyPair: keyPair || this.keyPair,
     });
 
-    const {
-      result: [{ boc }],
-    } = await this.client.net.query_collection({
+    const { result: [{ boc }] } = await this.client.net.query_collection({
       collection: 'accounts',
-      filter: {
-        id: {
-          eq: this.address,
-        },
-      },
+      filter: { id: { eq: this.address } },
       result: 'boc',
     });
 
-    // Get output of the method run execution
-    const {
-      decoded,
-    } = await this.client.tvm.run_tvm({
+    const { decoded } = await this.client.tvm.run_tvm({
       abi: {
         type: 'Contract',
         value: this.abi,
       },
-      message: message,
+      message,
       account: boc,
     });
 
-    // Decode output
     const functionAttributes = this.abi.functions.find(
       ({ name }: { name: string }) => name === method,
     );
@@ -174,8 +164,11 @@ export class Contract {
     return outputDecoder.decode();
   }
 
-  async decodeMessages(messages: any[], is_internal: boolean) {
-    const decodedMessages = messages.map(async (message: any) => {
+  async decodeMessages(
+    messages: { body: string, id: string, src: string, created_at: number }[],
+    is_internal: boolean
+  ): Promise<DecodedMessageBody[]> {
+    const decodedMessages = messages.map(async (message) => {
       const decodedMessage = await this.client.abi.decode_message_body({
         abi: {
           type: 'Contract',
@@ -196,7 +189,7 @@ export class Contract {
     return Promise.all(decodedMessages);
   }
 
-  async getSentMessages(messageType: any, internal: boolean) {
+  async getSentMessages(messageType: number, internal: boolean): Promise<DecodedMessageBody[]> {
     const { result } = await this.client.net.query_collection({
       collection: 'messages',
       filter: {
@@ -213,14 +206,24 @@ export class Contract {
     return this.decodeMessages(result, internal);
   }
 
-  async getEvents(eventName: string) {
+  async getEvents(eventName: string): Promise<DecodedMessageBody[]> {
     const sentMessages = await this.getSentMessages(2, false);
 
     return sentMessages.filter((message) => message.name === eventName);
   }
 
-  async createRunMessage({ contract, method, params, keyPair }: { contract: any; method: string; params: any; keyPair: any }) {
-    const encodeParams = {
+  async createRunMessage({
+    contract,
+    method,
+    params,
+    keyPair
+  }: {
+    contract: Contract;
+    method: string;
+    params: Record<string, any>;
+    keyPair?: KeyPair
+  }): Promise<ResultOfEncodeMessage> {
+    const encodeParams: ParamsOfEncodeMessage = {
       address: contract.address,
       abi: {
         type: 'Contract',
@@ -235,13 +238,11 @@ export class Contract {
       },
     };
 
-    return this.client.abi.encode_message(
-      this.enrichMessageWithKeys(encodeParams, keyPair),
-    );
+    return this.client.abi.encode_message(this.enrichMessageWithKeys(encodeParams, keyPair));
   }
 
-  enrichMessageWithKeys(encodeParams: any, keyPair: any): ParamsOfEncodeMessage {
-    return keyPair === undefined
+  enrichMessageWithKeys(encodeParams: ParamsOfEncodeMessage, keyPair?: KeyPair): ParamsOfEncodeMessage {
+    return !keyPair
       ? encodeParams
       : {
         ...encodeParams,
@@ -249,6 +250,6 @@ export class Contract {
           type: 'Keys',
           keys: keyPair,
         },
-      } as any;
+      };
   }
 }
