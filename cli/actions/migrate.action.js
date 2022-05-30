@@ -9,21 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RunAction = void 0;
+exports.MigrateAction = void 0;
 const abstract_action_1 = require("./abstract.action");
 const child_process_1 = require("child_process");
-class RunAction extends abstract_action_1.AbstractAction {
+class MigrateAction extends abstract_action_1.AbstractAction {
     handle(inputs, options) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield RunAction.spawnChildProcess(options.find(o => o.name === 'script').value);
+            yield MigrateAction.spawnChildProcess(options.find(o => o.name === 'script').value);
             process.exit(0);
         });
     }
     static spawnChildProcess(file) {
-        return (0, child_process_1.spawn)('ts-node', [file], {
+        return (0, child_process_1.spawn)('ts-node', [`migrations/${file}`], {
             stdio: 'inherit',
             shell: true,
         });
     }
 }
-exports.RunAction = RunAction;
+exports.MigrateAction = MigrateAction;

@@ -9,21 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RunAction = void 0;
-const abstract_action_1 = require("./abstract.action");
-const child_process_1 = require("child_process");
-class RunAction extends abstract_action_1.AbstractAction {
-    handle(inputs, options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield RunAction.spawnChildProcess(options.find(o => o.name === 'script').value);
-            process.exit(0);
-        });
-    }
-    static spawnChildProcess(file) {
-        return (0, child_process_1.spawn)('ts-node', [file], {
-            stdio: 'inherit',
-            shell: true,
-        });
+exports.MigrateCommand = void 0;
+const abstract_command_1 = require("./abstract.command");
+class MigrateCommand extends abstract_command_1.AbstractCommand {
+    load(program) {
+        program
+            .command('migrate [script]')
+            .alias('m')
+            .description('Run migration')
+            .action((script, command) => __awaiter(this, void 0, void 0, function* () {
+            const options = [];
+            const inputs = [];
+            inputs.push({ name: 'script', value: script });
+            yield this.action.handle(inputs, options);
+        }));
     }
 }
-exports.RunAction = RunAction;
+exports.MigrateCommand = MigrateCommand;

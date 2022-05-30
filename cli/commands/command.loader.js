@@ -14,6 +14,8 @@ const run_command_1 = require("./run.command");
 const run_action_1 = require("../actions/run.action");
 const gen_evertype_command_1 = require("./gen-evertype.command");
 const gen_evertype_action_1 = require("../actions/gen-evertype.action");
+const migrate_command_1 = require("./migrate.command");
+const migrate_action_1 = require("../actions/migrate.action");
 class CommandLoader {
     static load(program) {
         new init_command_1.InitCommand(new actions_1.InitAction()).load(program);
@@ -22,6 +24,7 @@ class CommandLoader {
         new test_command_1.TestCommand(new test_action_1.TestAction()).load(program);
         new run_command_1.RunCommand(new run_action_1.RunAction()).load(program);
         new gen_evertype_command_1.GenEvertypeCommand(new gen_evertype_action_1.GenEvertypeAction()).load(program);
+        new migrate_command_1.MigrateCommand(new migrate_action_1.MigrateAction()).load(program);
         this.handleInvalidCommand(program);
     }
     static handleInvalidCommand(program) {
