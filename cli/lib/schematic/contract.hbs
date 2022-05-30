@@ -46,7 +46,7 @@ export class {{class.name}} {
       {{../name}},
       {{/IfNotEquals}}
       {{/each}}
-    });
+    }) as any as Promise<{{#each ../outputs}}{{Type type components}}{{/each}}>;
   }
   {{/IfNotEquals}}
   {{/each}}
