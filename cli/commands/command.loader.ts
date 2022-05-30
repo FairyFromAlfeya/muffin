@@ -10,6 +10,8 @@ import { TestCommand } from './test.command';
 import { TestAction } from '../actions/test.action';
 import { RunCommand } from './run.command';
 import { RunAction } from '../actions/run.action';
+import { GenEvertypeCommand } from './gen-evertype.command';
+import { GenEvertypeAction } from '../actions/gen-evertype.action';
 
 export class CommandLoader {
   public static load(program: CommanderStatic): void {
@@ -18,6 +20,7 @@ export class CommandLoader {
     new LinkCommand(new LinkAction()).load(program);
     new TestCommand(new TestAction()).load(program);
     new RunCommand(new RunAction()).load(program);
+    new GenEvertypeCommand(new GenEvertypeAction()).load(program);
 
     this.handleInvalidCommand(program);
   }

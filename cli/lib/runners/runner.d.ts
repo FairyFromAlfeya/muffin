@@ -3,5 +3,6 @@ export declare enum Runner {
     COMPILER = 1,
     LINKER = 2,
     TESTER = 3,
-    BASE64 = 4
+    BASE64 = 4,
+    HANDLEBAR = 5
 }

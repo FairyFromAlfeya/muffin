@@ -8,6 +8,7 @@ const compiler_runner_1 = require("./compiler.runner");
 const linker_runner_1 = require("./linker.runner");
 const tester_runner_1 = require("./tester.runner");
 const base64_runner_1 = require("./base64.runner");
+const handlebar_runner_1 = require("./handlebar.runner");
 class RunnerFactory {
     static create(runner, options) {
         switch (runner) {
@@ -21,6 +22,8 @@ class RunnerFactory {
                 return new tester_runner_1.TesterRunner();
             case runner_1.Runner.BASE64:
                 return new base64_runner_1.Base64Runner();
+            case runner_1.Runner.HANDLEBAR:
+                return new handlebar_runner_1.HandlebarRunner();
             default:
                 console.info(chalk.yellow(`[WARN] Unsupported runner: ${runner}`));
         }

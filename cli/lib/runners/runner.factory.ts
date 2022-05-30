@@ -5,6 +5,7 @@ import { CompilerRunner } from './compiler.runner';
 import { LinkerRunner } from './linker.runner';
 import { TesterRunner } from './tester.runner';
 import { Base64Runner } from './base64.runner';
+import { HandlebarRunner } from './handlebar.runner';
 
 export class RunnerFactory {
   public static create(runner: Runner, options?: any) {
@@ -19,6 +20,8 @@ export class RunnerFactory {
         return new TesterRunner();
       case Runner.BASE64:
         return new Base64Runner();
+      case Runner.HANDLEBAR:
+        return new HandlebarRunner();
       default:
         console.info(chalk.yellow(`[WARN] Unsupported runner: ${runner}`));
     }

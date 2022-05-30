@@ -21,7 +21,7 @@ export class OutputDecoder {
     this.functionAttributes = functionAttributes;
   }
 
-  decode_value(encoded_value: string & string[] & BigNumber.Value, schema: Schema) {
+  decode_value(encoded_value: string & string[] & BigNumber.Value, schema: Schema): Buffer | Buffer[] | BigNumber | BigNumber[] | string | string[] | boolean | Record<string, any> {
     switch (schema.type) {
       case 'bytes':
         return this.decodeBytes(encoded_value);

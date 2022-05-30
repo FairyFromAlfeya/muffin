@@ -1,0 +1,53 @@
+import { Account, Contract, factory, Migration } from 'muffin';
+import { BigNumber } from 'bignumber.js';
+
+export class {{class.name}} {
+  private contract: Contract;
+
+  async load(name: string): Promise<void> {
+    const con = await factory.getContract(name);
+    this.contract = new Migration().load(con, name);
+  }
+  {{#each abi.functions}}
+  {{#IfNotEquals name 'constructor'}}
+
+  {{../name}}Target(
+    account: Account,
+    {{#each ../inputs}}
+    {{#IfNotEquals name 'answerId'}}
+    {{../name}}: {{Type ../type}},
+    {{/IfNotEquals}}
+    {{/each}}
+  ) {
+    return account.runTarget({
+      contract: this.contract,
+      method: '{{../name}}',
+      params: {
+        {{#each ../inputs}}
+        {{#IfNotEquals name 'answerId'}}
+        {{../name}},
+        {{/IfNotEquals}}
+        {{/each}}
+      },
+      keyPair: account.keyPair,
+    });
+  }
+
+  {{../name}}Call(
+    {{#each ../inputs}}
+    {{#IfNotEquals name 'answerId'}}
+    {{../name}}: {{Type ../type}},
+    {{/IfNotEquals}}
+    {{/each}}
+  ) {
+    return this.contract.call('{{../name}}', {
+      {{#each ../inputs}}
+      {{#IfNotEquals name 'answerId'}}
+      {{../name}},
+      {{/IfNotEquals}}
+      {{/each}}
+    }) as any as Promise<{{#each ../outputs}}{{Type type components}}{{/each}}>;
+  }
+  {{/IfNotEquals}}
+  {{/each}}
+}

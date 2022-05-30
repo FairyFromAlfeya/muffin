@@ -1,5 +1,6 @@
 import { AbiContract, DecodedMessageBody, ResultOfEncodeMessage, ResultOfProcessMessage, TonClient } from '@tonclient/core';
 import { ParamsOfEncodeMessage, KeyPair } from '@tonclient/core/dist/modules';
+import { BigNumber } from 'bignumber.js';
 export declare class Contract {
     client: TonClient;
     abi: Record<string, any>;
@@ -35,7 +36,7 @@ export declare class Contract {
         };
         abi: AbiContract;
     }): Promise<ResultOfProcessMessage>;
-    call(method: string, params?: Record<string, any>, keyPair?: KeyPair): Promise<Record<string, any>>;
+    call(method: string, params?: Record<string, any>, keyPair?: KeyPair): Promise<Record<string, any> | string | BigNumber>;
     decodeMessages(messages: {
         body: string;
         id: string;

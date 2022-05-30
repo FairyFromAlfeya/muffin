@@ -7,6 +7,7 @@ import {
   TonClient,
 } from '@tonclient/core';
 import { ParamsOfEncodeMessage, KeyPair } from '@tonclient/core/dist/modules';
+import { BigNumber } from 'bignumber.js';
 
 export class Contract {
   client = new TonClient({ network: { server_address: 'http://localhost:80/' } });
@@ -110,7 +111,7 @@ export class Contract {
     method: string,
     params?: Record<string, any>,
     keyPair?: KeyPair
-  ): Promise<Record<string, any>> {
+  ): Promise<Record<string, any> | string | BigNumber> {
     const extendedParams = params || {};
 
     if (this.autoAnswerIdOnCall) {

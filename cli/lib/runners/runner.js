@@ -8,4 +8,5 @@ var Runner;
     Runner[Runner["LINKER"] = 2] = "LINKER";
     Runner[Runner["TESTER"] = 3] = "TESTER";
     Runner[Runner["BASE64"] = 4] = "BASE64";
+    Runner[Runner["HANDLEBAR"] = 5] = "HANDLEBAR";
 })(Runner = exports.Runner || (exports.Runner = {}));

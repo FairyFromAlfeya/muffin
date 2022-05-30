@@ -55,6 +55,7 @@
     "commander": "4.1.1",
     "fork-ts-checker-webpack-plugin": "7.2.11",
     "glob": "^8.0.3",
+    "handlebars": "^4.7.7",
     "inquirer": "7.3.3",
     "node-emoji": "1.11.0",
     "ora": "5.4.1",

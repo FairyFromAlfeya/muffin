@@ -14,7 +14,7 @@ export declare class OutputDecoder {
     output: Record<string, any>;
     functionAttributes: FunctionAttributes;
     constructor(output: Record<string, any>, functionAttributes: FunctionAttributes);
-    decode_value(encoded_value: string & string[] & BigNumber.Value, schema: Schema): boolean | Record<string, any>;
+    decode_value(encoded_value: string & string[] & BigNumber.Value, schema: Schema): Buffer | Buffer[] | BigNumber | BigNumber[] | string | string[] | boolean | Record<string, any>;
     decodeBytes(value: string): Buffer;
     decodeBytesArray(value: string[]): Buffer[];
     decodeBool(value: any): boolean;

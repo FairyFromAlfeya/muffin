@@ -4,4 +4,5 @@ export enum Runner {
   LINKER,
   TESTER,
   BASE64,
+  HANDLEBAR,
 }
