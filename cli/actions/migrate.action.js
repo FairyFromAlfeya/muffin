@@ -15,7 +15,7 @@ const child_process_1 = require("child_process");
 class MigrateAction extends abstract_action_1.AbstractAction {
     handle(inputs, options) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield MigrateAction.spawnChildProcess(options.find(o => o.name === 'script').value);
+            yield MigrateAction.spawnChildProcess(inputs.find(o => o.name === 'script').value);
             process.exit(0);
         });
     }
