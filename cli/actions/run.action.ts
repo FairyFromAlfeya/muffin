@@ -10,7 +10,7 @@ export class RunAction extends AbstractAction {
   }
 
   private static spawnChildProcess(file: boolean | string) {
-    return spawn('node', [file as string], {
+    return spawn('ts-node', [file as string], {
       stdio: 'inherit',
       shell: true,
     });
