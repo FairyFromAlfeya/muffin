@@ -4,7 +4,7 @@ import { BigNumber } from 'bignumber.js';
 export class {{class.name}} {
   private contract: Contract;
 
-  async load(name: string): Promise<void> {
+  async load(name: string) {
     const con = await factory.getContract(name);
     this.contract = new Migration().load(con, name);
   }

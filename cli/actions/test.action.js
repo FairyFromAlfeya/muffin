@@ -11,8 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestAction = void 0;
 const abstract_action_1 = require("./abstract.action");
-const index_1 = require("../lib/runners/index");
-;
+const runners_1 = require("../lib/runners");
 class TestAction extends abstract_action_1.AbstractAction {
     handle(inputs, options) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -23,7 +22,7 @@ class TestAction extends abstract_action_1.AbstractAction {
 }
 exports.TestAction = TestAction;
 const linkContracts = () => __awaiter(void 0, void 0, void 0, function* () {
-    const runner = index_1.RunnerFactory.create(index_1.Runner.TESTER);
+    const runner = runners_1.RunnerFactory.create(runners_1.Runner.TESTER);
     yield runner.run('');
     console.info();
 });

@@ -1,6 +1,6 @@
-import { Input } from '../commands/index';
+import { Input } from '../commands';
 import { AbstractAction } from './abstract.action';
-import { Runner, RunnerFactory } from '../lib/runners/index';;
+import { Runner, RunnerFactory } from '../lib/runners';
 import { CompilerRunner } from '../lib/runners/compiler.runner';
 
 export class TestAction extends AbstractAction {

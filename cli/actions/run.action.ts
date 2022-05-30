@@ -1,4 +1,4 @@
-import { Input } from '../commands/index';
+import { Input } from '../commands';
 import { AbstractAction } from './abstract.action';
 import { spawn } from 'child_process';
 

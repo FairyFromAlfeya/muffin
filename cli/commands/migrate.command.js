@@ -17,7 +17,7 @@ class MigrateCommand extends abstract_command_1.AbstractCommand {
             .command('migrate [script]')
             .alias('m')
             .description('Run migration')
-            .action((script, command) => __awaiter(this, void 0, void 0, function* () {
+            .action((script) => __awaiter(this, void 0, void 0, function* () {
             const options = [];
             const inputs = [];
             inputs.push({ name: 'script', value: script });
