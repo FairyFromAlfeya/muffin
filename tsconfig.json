@@ -7,9 +7,22 @@
     "skipLibCheck": true,
     "sourceMap": false,
     "strict": true,
-    "types": ["node", "jest"],
+    "useUnknownInCatchVariables": false,
+    "types": [
+      "node",
+      "jest"
+    ],
     "resolveJsonModule": true
   },
-  "include": ["cli", "lib", "index.ts"],
-  "exclude": ["node_modules", "e2e", "cli/lib/schematic"]
+  "include": [
+    "cli/actions",
+    "cli/bin",
+    "cli/commands",
+    "cli/lib",
+    "lib",
+    "index.ts"
+  ],
+  "exclude": ["node_modules", "e2e",
+    "cli/lib/schematic"
+  ]
 }
