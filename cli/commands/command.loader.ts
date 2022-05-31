@@ -1,9 +1,9 @@
 import * as chalk from 'chalk';
 import { program } from 'commander';
-import { BuildAction, InitAction } from '../actions';
+import { CompileAction, InitAction } from '../actions';
 import { ERROR_PREFIX } from '../lib/ui';
 import { InitCommand } from './init.command';
-import { BuildCommand } from './build.command';
+import { CompileCommand } from './compile.command';
 import { LinkCommand } from './link.command';
 import { LinkAction } from '../actions/link.action';
 import { TestCommand } from './test.command';
@@ -18,7 +18,7 @@ import { MigrateAction } from '../actions/migrate.action';
 export class CommandLoader {
   public static load(): void {
     new InitCommand(new InitAction()).load();
-    new BuildCommand(new BuildAction()).load();
+    new CompileCommand(new CompileAction()).load();
     new LinkCommand(new LinkAction()).load();
     new TestCommand(new TestAction()).load();
     new RunCommand(new RunAction()).load();

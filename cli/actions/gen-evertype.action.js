@@ -14,6 +14,8 @@ const abstract_action_1 = require("./abstract.action");
 const fs_1 = require("fs");
 const path_1 = require("path");
 const Handlebars = require("handlebars");
+const ui_1 = require("../lib/ui");
+const chalk = require("chalk");
 class GenEvertypeAction extends abstract_action_1.AbstractAction {
     handle(inputs, options) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -63,12 +65,19 @@ const genEvertype = (file) => __awaiter(void 0, void 0, void 0, function* () {
                     return type;
             }
         });
+        console.info();
+        console.info(ui_1.EMOJIS.FIRE, ui_1.EMOJIS.FIRE, ui_1.EMOJIS.FIRE, chalk.bgBlue('        Typing 1 contract        '), ui_1.EMOJIS.FIRE, ui_1.EMOJIS.FIRE, ui_1.EMOJIS.FIRE);
+        console.info();
         const template = Handlebars.compile((0, fs_1.readFileSync)(`${__dirname}/../lib/schematic/contract.hbs`, { encoding: 'utf-8' }));
         const data = (0, fs_1.readFileSync)((0, path_1.join)(process.cwd(), file), { encoding: 'utf-8' });
         const abi = JSON.parse(data);
         const name = file.match(/\w+\.abi\.json/)[0];
+        (0, fs_1.mkdirSync)((0, path_1.join)(process.cwd(), 'evertype'), { recursive: true });
         const savePath = (0, path_1.join)(process.cwd(), 'evertype', name.replace('abi.json', 'ts'));
         (0, fs_1.writeFileSync)(savePath, template({ class: { name: name.replace('.abi.json', '') }, abi }));
+        console.info(chalk.blue('[TYPED]'), chalk.green(`${name} => evertype/${name.replace('abi.json', 'ts')}`));
+        console.info();
+        console.info(ui_1.EMOJIS.FIRE, ui_1.EMOJIS.FIRE, ui_1.EMOJIS.FIRE, chalk.bgBlue('Contracts were typed successfully'), ui_1.EMOJIS.FIRE, ui_1.EMOJIS.FIRE, ui_1.EMOJIS.FIRE);
     }
     catch (e) {
         console.error(e);

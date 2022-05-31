@@ -12,17 +12,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestAction = void 0;
 const abstract_action_1 = require("./abstract.action");
 const runners_1 = require("../lib/runners");
+const ui_1 = require("../lib/ui");
+const chalk = require("chalk");
 class TestAction extends abstract_action_1.AbstractAction {
     handle(inputs, options) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield testContracts(inputs.find(o => o.name === 'script').value).catch(() => process.exit(1));
-            process.exit(0);
+            console.info();
+            console.info(ui_1.EMOJIS.TEST_TUBE, ui_1.EMOJIS.TEST_TUBE, ui_1.EMOJIS.TEST_TUBE, chalk.bgBlue(`    Testing ${inputs.find(o => o.name === 'script').value}    `), ui_1.EMOJIS.TEST_TUBE, ui_1.EMOJIS.TEST_TUBE, ui_1.EMOJIS.TEST_TUBE);
+            yield testContracts(inputs.find(o => o.name === 'script').value)
+                .finally(() => {
+                console.info();
+                console.info(ui_1.EMOJIS.TEST_TUBE, ui_1.EMOJIS.TEST_TUBE, ui_1.EMOJIS.TEST_TUBE, chalk.bgBlue(`    Testing ${inputs.find(o => o.name === 'script').value}    `), ui_1.EMOJIS.TEST_TUBE, ui_1.EMOJIS.TEST_TUBE, ui_1.EMOJIS.TEST_TUBE);
+                console.info();
+                process.exit(0);
+            });
         });
     }
 }
 exports.TestAction = TestAction;
 const testContracts = (script) => __awaiter(void 0, void 0, void 0, function* () {
     const runner = runners_1.RunnerFactory.create(runners_1.Runner.TESTER);
-    yield runner.run(`test/${script}.spec.ts --require ts-node/register`);
+    yield runner.run(`test/${script}.spec.ts --require ts-node/register --exit --timeout 1000000`, true);
     console.info();
 });

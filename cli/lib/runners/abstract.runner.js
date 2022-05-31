@@ -23,14 +23,11 @@ class AbstractRunner {
             const args = [command];
             const options = {
                 cwd,
-                stdio: collect ? 'pipe' : 'inherit',
+                stdio: collect ? 'inherit' : undefined,
                 shell: true,
             };
             return new Promise((resolve, reject) => {
                 const child = (0, child_process_1.spawn)(`${this.binary}`, [...this.args, ...args], options);
-                if (collect) {
-                    child.stdout.on('data', (data) => resolve(data.toString().replace(/\r\n|\n/, '')));
-                }
                 child.on('close', (code) => {
                     if (code === 0) {
                         resolve(null);

@@ -9,18 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BuildCommand = void 0;
+exports.CompileCommand = void 0;
 const commander_1 = require("commander");
 const abstract_command_1 = require("./abstract.command");
-class BuildCommand extends abstract_command_1.AbstractCommand {
+class CompileCommand extends abstract_command_1.AbstractCommand {
     load() {
         commander_1.program
-            .command('build')
-            .alias('b')
-            .description('Build solidity contracts')
+            .command('compile')
+            .alias('c')
+            .description('Compile solidity contracts')
             .action(() => __awaiter(this, void 0, void 0, function* () {
             yield this.action.handle();
         }));
     }
 }
-exports.BuildCommand = BuildCommand;
+exports.CompileCommand = CompileCommand;

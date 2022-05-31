@@ -17,11 +17,9 @@ class MuffinConfigurationLoader {
     }
     load(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('config');
             const content = name
                 ? yield this.reader.read(name)
                 : yield this.reader.readAnyOf(['muffin.config.json', 'muffin.json']);
-            console.log(content);
             if (!content) {
                 return defaults_1.defaultConfiguration;
             }

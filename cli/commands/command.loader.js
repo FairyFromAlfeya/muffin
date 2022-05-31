@@ -6,7 +6,7 @@ const commander_1 = require("commander");
 const actions_1 = require("../actions");
 const ui_1 = require("../lib/ui");
 const init_command_1 = require("./init.command");
-const build_command_1 = require("./build.command");
+const compile_command_1 = require("./compile.command");
 const link_command_1 = require("./link.command");
 const link_action_1 = require("../actions/link.action");
 const test_command_1 = require("./test.command");
@@ -20,7 +20,7 @@ const migrate_action_1 = require("../actions/migrate.action");
 class CommandLoader {
     static load() {
         new init_command_1.InitCommand(new actions_1.InitAction()).load();
-        new build_command_1.BuildCommand(new actions_1.BuildAction()).load();
+        new compile_command_1.CompileCommand(new actions_1.CompileAction()).load();
         new link_command_1.LinkCommand(new link_action_1.LinkAction()).load();
         new test_command_1.TestCommand(new test_action_1.TestAction()).load();
         new run_command_1.RunCommand(new run_action_1.RunAction()).load();

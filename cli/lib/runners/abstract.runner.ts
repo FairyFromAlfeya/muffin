@@ -13,7 +13,7 @@ export class AbstractRunner {
     const args: string[] = [command];
     const options: SpawnOptions = {
       cwd,
-      stdio: collect ? 'pipe' : 'inherit',
+      stdio: collect ? 'inherit' : undefined,
       shell: true,
     };
 
@@ -23,12 +23,6 @@ export class AbstractRunner {
         [...this.args, ...args],
         options,
       );
-
-      if (collect) {
-        child.stdout!.on('data', (data) =>
-          resolve(data.toString().replace(/\r\n|\n/, '')),
-        );
-      }
 
       child.on('close', (code) => {
         if (code === 0) {

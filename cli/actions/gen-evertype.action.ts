@@ -1,8 +1,10 @@
 import { Input } from '../commands';
 import { AbstractAction } from './abstract.action';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import * as Handlebars from 'handlebars';
+import { EMOJIS } from '../lib/ui';
+import * as chalk from 'chalk';
 
 export class GenEvertypeAction extends AbstractAction {
   public async handle(inputs: Input[], options: Input[]) {
@@ -57,12 +59,21 @@ const genEvertype = async (file: string) => {
           return type;
       }
     });
+
+    console.info();
+    console.info(EMOJIS.FIRE, EMOJIS.FIRE, EMOJIS.FIRE, chalk.bgBlue('        Typing 1 contract        '), EMOJIS.FIRE, EMOJIS.FIRE, EMOJIS.FIRE);
+    console.info();
+
     const template = Handlebars.compile(readFileSync(`${__dirname}/../lib/schematic/contract.hbs`, { encoding: 'utf-8' }));
     const data = readFileSync(join(process.cwd(), file), { encoding: 'utf-8' });
     const abi = JSON.parse(data);
     const name = file.match(/\w+\.abi\.json/)![0];
+    mkdirSync(join(process.cwd(), 'evertype'), { recursive: true });
     const savePath = join(process.cwd(), 'evertype', name.replace('abi.json', 'ts'));
     writeFileSync(savePath, template({ class: { name: name.replace('.abi.json', '') }, abi }));
+    console.info(chalk.blue('[TYPED]'), chalk.green(`${name} => evertype/${name.replace('abi.json', 'ts')}`));
+    console.info();
+    console.info(EMOJIS.FIRE, EMOJIS.FIRE, EMOJIS.FIRE, chalk.bgBlue('Contracts were typed successfully'), EMOJIS.FIRE, EMOJIS.FIRE, EMOJIS.FIRE);
   } catch (e) {
     console.error(e)
   }
