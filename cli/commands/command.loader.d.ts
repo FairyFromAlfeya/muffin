@@ -1,5 +1,4 @@
-import { CommanderStatic } from 'commander';
 export declare class CommandLoader {
-    static load(program: CommanderStatic): void;
+    static load(): void;
     private static handleInvalidCommand;
 }

@@ -1,9 +1,9 @@
-import { CommanderStatic } from 'commander';
+import { program } from 'commander';
 import { AbstractCommand } from './abstract.command';
 import { Input } from './command.input';
 
 export class MigrateCommand extends AbstractCommand {
-  public load(program: CommanderStatic) {
+  public load() {
     program
       .command('migrate [script]')
       .alias('m')

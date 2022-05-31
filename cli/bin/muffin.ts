@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-import * as commander from 'commander';
-import { CommanderStatic } from 'commander';
+import { program } from 'commander';
 import { CommandLoader } from '../commands';
 import {
   loadLocalBinCommandLoader,
@@ -9,8 +8,6 @@ import {
 import * as PackageJson from '../../package.json';
 
 const bootstrap = () => {
-  const program: CommanderStatic = commander;
-
   program
     .version(
       PackageJson.version,
@@ -22,12 +19,12 @@ const bootstrap = () => {
 
   if (localBinExists()) {
     const localCommandLoader = loadLocalBinCommandLoader();
-    localCommandLoader.load(program);
+    localCommandLoader.load();
   } else {
-    CommandLoader.load(program);
+    CommandLoader.load();
   }
 
-  commander.parse(process.argv);
+  program.parse(process.argv);
 
   if (!process.argv.slice(2).length) {
     program.outputHelp();

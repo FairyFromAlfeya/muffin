@@ -10,9 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AbstractRunner = void 0;
-const chalk = require("chalk");
+const chalk_1 = require("chalk");
 const child_process_1 = require("child_process");
-const index_1 = require("../ui/index");
+const ui_1 = require("../ui");
 class AbstractRunner {
     constructor(binary, args = []) {
         this.binary = binary;
@@ -36,7 +36,7 @@ class AbstractRunner {
                         resolve(null);
                     }
                     else {
-                        console.error(chalk.red(index_1.MESSAGES.RUNNER_EXECUTION_ERROR(`${this.binary} ${command}`)));
+                        console.error(chalk_1.default.red(ui_1.MESSAGES.RUNNER_EXECUTION_ERROR(`${this.binary} ${command}`)));
                         reject();
                     }
                 });

@@ -1,8 +1,8 @@
-import { CommanderStatic } from 'commander';
+import { program } from 'commander';
 import { AbstractCommand } from './abstract.command';
 
 export class TestCommand extends AbstractCommand {
-  public load(program: CommanderStatic) {
+  public load() {
     program
       .command('test')
       .alias('t')

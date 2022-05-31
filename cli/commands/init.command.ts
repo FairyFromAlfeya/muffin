@@ -1,15 +1,15 @@
-import { Command, CommanderStatic } from 'commander';
+import { program } from 'commander';
 import { AbstractCommand } from './abstract.command';
 import { Input } from './command.input';
 
 export class InitCommand extends AbstractCommand {
-  public load(program: CommanderStatic) {
+  public load() {
     program
       .command('init [name]')
       .alias('i')
       .description('Generate Everscale project')
       .option('-d, --directory [directory]', 'Specify the destination directory')
-      .action(async (name: string, command: Command) => {
+      .action(async (name: string, command: any) => {
         const options: Input[] = [];
         options.push({ name: 'directory', value: command.directory });
 

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RunnerFactory = void 0;
-const chalk = require("chalk");
+const chalk_1 = require("chalk");
 const runner_1 = require("./runner");
 const copier_runner_1 = require("./copier.runner");
 const compiler_runner_1 = require("./compiler.runner");
@@ -25,7 +25,7 @@ class RunnerFactory {
             case runner_1.Runner.HANDLEBAR:
                 return new handlebar_runner_1.HandlebarRunner();
             default:
-                console.info(chalk.yellow(`[WARN] Unsupported runner: ${runner}`));
+                console.info(chalk_1.default.yellow(`[WARN] Unsupported runner: ${runner}`));
         }
     }
 }

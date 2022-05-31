@@ -1,6 +1,6 @@
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import { ChildProcess, spawn, SpawnOptions } from 'child_process';
-import { MESSAGES } from '../ui/index';
+import { MESSAGES } from '../ui';
 
 export class AbstractRunner {
   constructor(protected binary: string, protected args: string[] = []) {}

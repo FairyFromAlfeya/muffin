@@ -10,10 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestCommand = void 0;
+const commander_1 = require("commander");
 const abstract_command_1 = require("./abstract.command");
 class TestCommand extends abstract_command_1.AbstractCommand {
-    load(program) {
-        program
+    load() {
+        commander_1.program
             .command('test')
             .alias('t')
             .description('Test solidity contracts with Mocha')

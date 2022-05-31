@@ -1,5 +1,5 @@
-import * as chalk from 'chalk';
-import { CommanderStatic } from 'commander';
+import chalk from 'chalk';
+import { program } from 'commander';
 import { BuildAction, InitAction } from '../actions';
 import { ERROR_PREFIX } from '../lib/ui';
 import { InitCommand } from './init.command';
@@ -16,19 +16,19 @@ import { MigrateCommand } from './migrate.command';
 import { MigrateAction } from '../actions/migrate.action';
 
 export class CommandLoader {
-  public static load(program: CommanderStatic): void {
-    new InitCommand(new InitAction()).load(program);
-    new BuildCommand(new BuildAction()).load(program);
-    new LinkCommand(new LinkAction()).load(program);
-    new TestCommand(new TestAction()).load(program);
-    new RunCommand(new RunAction()).load(program);
-    new GenEvertypeCommand(new GenEvertypeAction()).load(program);
-    new MigrateCommand(new MigrateAction()).load(program);
+  public static load(): void {
+    new InitCommand(new InitAction()).load();
+    new BuildCommand(new BuildAction()).load();
+    new LinkCommand(new LinkAction()).load();
+    new TestCommand(new TestAction()).load();
+    new RunCommand(new RunAction()).load();
+    new GenEvertypeCommand(new GenEvertypeAction()).load();
+    new MigrateCommand(new MigrateAction()).load();
 
-    this.handleInvalidCommand(program);
+    this.handleInvalidCommand();
   }
 
-  private static handleInvalidCommand(program: CommanderStatic) {
+  private static handleInvalidCommand() {
     program.on('command:*', () => {
       console.error(`\n${ERROR_PREFIX} Invalid command: ${chalk.red('%s')}`, program.args.join(' '));
       console.log(`See ${chalk.red('--help')} for a list of available commands.\n`);
