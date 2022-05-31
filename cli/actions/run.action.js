@@ -15,8 +15,8 @@ const child_process_1 = require("child_process");
 class RunAction extends abstract_action_1.AbstractAction {
     handle(inputs, options) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield RunAction.spawnChildProcess(options.find(o => o.name === 'script').value);
-            process.exit(0);
+            const child = yield RunAction.spawnChildProcess(options.find(o => o.name === 'script').value);
+            child.on('exit', () => process.exit(0));
         });
     }
     static spawnChildProcess(file) {

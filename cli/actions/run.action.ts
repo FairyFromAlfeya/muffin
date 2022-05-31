@@ -4,9 +4,8 @@ import { spawn } from 'child_process';
 
 export class RunAction extends AbstractAction {
   public async handle(inputs: Input[], options: Input[]) {
-    await RunAction.spawnChildProcess(options.find(o => o.name === 'script')!.value);
-
-    process.exit(0);
+    const child = await RunAction.spawnChildProcess(options.find(o => o.name === 'script')!.value);
+    child.on('exit', () => process.exit(0));
   }
 
   private static spawnChildProcess(file: boolean | string) {
