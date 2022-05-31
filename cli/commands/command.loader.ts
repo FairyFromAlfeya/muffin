@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import { program } from 'commander';
 import { BuildAction, InitAction } from '../actions';
 import { ERROR_PREFIX } from '../lib/ui';

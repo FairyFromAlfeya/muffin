@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import { Runner } from './runner';
 import { CopierRunner } from './copier.runner';
 import { CompilerRunner } from './compiler.runner';

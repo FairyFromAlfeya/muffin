@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandLoader = void 0;
-const chalk_1 = require("chalk");
+const chalk = require("chalk");
 const commander_1 = require("commander");
 const actions_1 = require("../actions");
 const ui_1 = require("../lib/ui");
@@ -30,8 +30,8 @@ class CommandLoader {
     }
     static handleInvalidCommand() {
         commander_1.program.on('command:*', () => {
-            console.error(`\n${ui_1.ERROR_PREFIX} Invalid command: ${chalk_1.default.red('%s')}`, commander_1.program.args.join(' '));
-            console.log(`See ${chalk_1.default.red('--help')} for a list of available commands.\n`);
+            console.error(`\n${ui_1.ERROR_PREFIX} Invalid command: ${chalk.red('%s')}`, commander_1.program.args.join(' '));
+            console.log(`See ${chalk.red('--help')} for a list of available commands.\n`);
             process.exit(1);
         });
     }
