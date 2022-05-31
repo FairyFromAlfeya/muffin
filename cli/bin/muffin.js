@@ -5,6 +5,9 @@ const commander_1 = require("commander");
 const commands_1 = require("../commands");
 const local_binaries_1 = require("../lib/utils/local-binaries");
 const PackageJson = require("../../package.json");
+const lib_node_1 = require("@tonclient/lib-node");
+const core_1 = require("@tonclient/core");
+core_1.TonClient.useBinaryLibrary(lib_node_1.libNode);
 const bootstrap = () => {
     commander_1.program
         .version(PackageJson.version, '-v, --version', 'Output the current version')
