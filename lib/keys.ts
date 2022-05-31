@@ -1,9 +1,10 @@
 import { TonClient } from '@tonclient/core';
 import { KeyPair } from '@tonclient/core/dist/modules';
+import { nodeUrl } from './utils';
 
 class Keys {
   keyPairs: KeyPair[] = [];
-  client = new TonClient({ network: { server_address: 'http://localhost:80/' } });
+  client = new TonClient({ network: { server_address: nodeUrl() } });
 
   getKeyPairs(): KeyPair[] {
     return this.keyPairs;

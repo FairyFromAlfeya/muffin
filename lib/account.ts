@@ -1,11 +1,11 @@
 import { Contract } from './contract';
-import { convertCrystal } from './utils';
+import { convertCrystal, nodeUrl } from './utils';
 import { ResultOfProcessMessage, TonClient } from '@tonclient/core';
 import { KeyPair } from '@tonclient/core/dist/modules';
 import { BigNumber } from 'bignumber.js';
 
 export class Account extends Contract {
-  client = new TonClient({ network: { server_address: 'http://localhost:80/' } });
+  client = new TonClient({ network: { server_address: nodeUrl() } });
   keyPair?: KeyPair;
 
   async runTarget({

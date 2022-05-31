@@ -1,11 +1,11 @@
 import { resolve } from 'path';
-import { loadBase64FromFile, loadJSONFromFile } from './utils';
+import { loadBase64FromFile, loadJSONFromFile, nodeUrl } from './utils';
 import { Contract } from './contract';
 import { Account } from './account';
 import { TonClient } from '@tonclient/core';
 
 class Factory {
-  client = new TonClient({ network: { server_address: 'http://localhost:80/' } });
+  client = new TonClient({ network: { server_address: nodeUrl() } });
 
   async initializeContract(name: string, resolvedPath: string): Promise<Contract> {
     const base64 = loadBase64FromFile(`${resolvedPath}/${name}.base64`);

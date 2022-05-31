@@ -1,10 +1,10 @@
 import { Contract } from './contract';
-import { convertCrystal, getRandomNonce } from './utils';
+import { convertCrystal, getRandomNonce, nodeUrl } from './utils';
 import { AbiContract, ResultOfEncodeMessage, ResultOfProcessMessage, TonClient } from '@tonclient/core';
 import { KeyPair, ParamsOfEncodeMessage } from '@tonclient/core/dist/modules';
 
 export class Giver {
-  client = new TonClient({ network: { server_address: 'http://localhost:80/' } });
+  client = new TonClient({ network: { server_address: nodeUrl() } });
   giver = new Contract({
     abi: {
       "ABI version": 1,

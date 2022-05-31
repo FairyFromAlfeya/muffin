@@ -8,9 +8,10 @@ import {
 } from '@tonclient/core';
 import { ParamsOfEncodeMessage, KeyPair } from '@tonclient/core/dist/modules';
 import { BigNumber } from 'bignumber.js';
+import { nodeUrl } from './utils';
 
 export class Contract {
-  client = new TonClient({ network: { server_address: 'http://localhost:80/' } });
+  client = new TonClient({ network: { server_address: nodeUrl() } });
 
   abi: Record<string, any>;
   base64: string;
