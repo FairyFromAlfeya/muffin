@@ -6,6 +6,10 @@ import {
   localBinExists,
 } from '../lib/utils/local-binaries';
 import * as PackageJson from '../../package.json';
+import { libNode } from '@tonclient/lib-node';
+import { TonClient } from '@tonclient/core';
+
+TonClient.useBinaryLibrary(libNode);
 
 const bootstrap = () => {
   program
