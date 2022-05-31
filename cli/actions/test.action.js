@@ -15,14 +15,14 @@ const runners_1 = require("../lib/runners");
 class TestAction extends abstract_action_1.AbstractAction {
     handle(inputs, options) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield linkContracts().catch(() => process.exit(1));
+            yield testContracts(inputs.find(o => o.name === 'script').value).catch(() => process.exit(1));
             process.exit(0);
         });
     }
 }
 exports.TestAction = TestAction;
-const linkContracts = () => __awaiter(void 0, void 0, void 0, function* () {
+const testContracts = (script) => __awaiter(void 0, void 0, void 0, function* () {
     const runner = runners_1.RunnerFactory.create(runners_1.Runner.TESTER);
-    yield runner.run('');
+    yield runner.run(`test/${script}.spec.ts --require ts-node/register`);
     console.info();
 });

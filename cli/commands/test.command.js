@@ -15,11 +15,14 @@ const abstract_command_1 = require("./abstract.command");
 class TestCommand extends abstract_command_1.AbstractCommand {
     load() {
         commander_1.program
-            .command('test')
+            .command('test [script]')
             .alias('t')
             .description('Test solidity contracts with Mocha')
-            .action(() => __awaiter(this, void 0, void 0, function* () {
-            yield this.action.handle();
+            .action((script) => __awaiter(this, void 0, void 0, function* () {
+            const options = [];
+            const inputs = [];
+            inputs.push({ name: 'script', value: script });
+            yield this.action.handle(inputs, options);
         }));
     }
 }

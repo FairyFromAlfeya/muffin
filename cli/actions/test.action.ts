@@ -1,19 +1,19 @@
 import { Input } from '../commands';
 import { AbstractAction } from './abstract.action';
 import { Runner, RunnerFactory } from '../lib/runners';
-import { CompilerRunner } from '../lib/runners/compiler.runner';
+import { TesterRunner } from '../lib/runners/tester.runner';
 
 export class TestAction extends AbstractAction {
   public async handle(inputs: Input[], options: Input[]) {
-    await linkContracts().catch(() => process.exit(1));
+    await testContracts(inputs.find(o => o.name === 'script')!.value).catch(() => process.exit(1));
 
     process.exit(0);
   }
 }
 
-const linkContracts = async () => {
-  const runner = RunnerFactory.create(Runner.TESTER) as CompilerRunner;
-  await runner.run('');
+const testContracts = async (script: boolean | string) => {
+  const runner = RunnerFactory.create(Runner.TESTER) as TesterRunner;
+  await runner.run(`test/${script}.spec.ts --require ts-node/register`);
 
   console.info();
 };
