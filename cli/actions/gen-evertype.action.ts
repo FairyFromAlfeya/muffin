@@ -29,8 +29,28 @@ const tupleToType = (components: { name: string; type: string }[]) => {
 
 const solTypeToJs = (type: string): string => {
   switch (type) {
-    case 'uint64':
+    case 'uint8':
+    case 'uint16':
+    case 'uint24':
     case 'uint32':
+    case 'uint40':
+    case 'uint48':
+    case 'uint56':
+    case 'uint64':
+    case 'uint72':
+    case 'uint80':
+    case 'uint88':
+    case 'uint96':
+    case 'uint104':
+    case 'uint112':
+    case 'uint120':
+    case 'uint128':
+    case 'uint136':
+    case 'uint144':
+    case 'uint152':
+    case 'uint160':
+    case 'uint168':
+    case 'uint176':
     case 'uint256':
       return 'BigNumber';
     case 'bool':
@@ -47,8 +67,28 @@ const genEvertype = async (file: string) => {
     });
     Handlebars.registerHelper('Type', (type: string, components: any) => {
       switch (type) {
-        case 'uint64':
+        case 'uint8':
+        case 'uint16':
+        case 'uint24':
         case 'uint32':
+        case 'uint40':
+        case 'uint48':
+        case 'uint56':
+        case 'uint64':
+        case 'uint72':
+        case 'uint80':
+        case 'uint88':
+        case 'uint96':
+        case 'uint104':
+        case 'uint112':
+        case 'uint120':
+        case 'uint128':
+        case 'uint136':
+        case 'uint144':
+        case 'uint152':
+        case 'uint160':
+        case 'uint168':
+        case 'uint176':
         case 'uint256':
           return 'BigNumber';
         case 'bool':
