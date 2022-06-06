@@ -38,7 +38,7 @@ const compileContracts = async () => {
     const name = file.match(/\w+.sol$/)![0];
 
     if ((fileData.match(/^contract .+{/m) || []).length > 0) {
-      await runner.run(`-i ${process.cwd()}/node_modules -o build ${join(process.cwd(), file)}`);
+      await runner.run(`-i ${process.cwd()}/node_modules -o ${process.cwd()}/build ${join(process.cwd(), file)}`);
       console.info(chalk.blue('[COMPILED]'), chalk.green(`${file} => ${name.replace('.sol', '.code')} + ${name.replace('.sol', '.abi.json')}`));
     }
   }

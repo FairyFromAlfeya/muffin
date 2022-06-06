@@ -45,7 +45,7 @@ const compileContracts = () => __awaiter(void 0, void 0, void 0, function* () {
         const fileData = (0, fs_1.readFileSync)(filePath, { encoding: 'utf-8' });
         const name = file.match(/\w+.sol$/)[0];
         if ((fileData.match(/^contract .+{/m) || []).length > 0) {
-            yield runner.run(`-i ${process.cwd()}/node_modules -o build ${(0, path_1.join)(process.cwd(), file)}`);
+            yield runner.run(`-i ${process.cwd()}/node_modules -o ${process.cwd()}/build ${(0, path_1.join)(process.cwd(), file)}`);
             console.info(chalk.blue('[COMPILED]'), chalk.green(`${file} => ${name.replace('.sol', '.code')} + ${name.replace('.sol', '.abi.json')}`));
         }
     }
