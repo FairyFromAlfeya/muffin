@@ -8,6 +8,7 @@ interface NetworkOptions {
     url?: string;
 }
 interface BuildOptions {
+    directory?: string;
     compiler?: CompilerOptions;
     linker?: LinkerOptions;
 }

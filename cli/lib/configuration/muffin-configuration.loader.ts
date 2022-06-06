@@ -20,6 +20,10 @@ export class MuffinConfigurationLoader implements ConfigurationLoader {
     return {
       ...defaultConfiguration,
       ...fileConfig,
+      build: {
+        ...defaultConfiguration.build,
+        ...fileConfig.build,
+      }
     };
   }
 }

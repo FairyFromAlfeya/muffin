@@ -24,7 +24,7 @@ class MuffinConfigurationLoader {
                 return defaults_1.defaultConfiguration;
             }
             const fileConfig = JSON.parse(content);
-            return Object.assign(Object.assign({}, defaults_1.defaultConfiguration), fileConfig);
+            return Object.assign(Object.assign(Object.assign({}, defaults_1.defaultConfiguration), fileConfig), { build: Object.assign(Object.assign({}, defaults_1.defaultConfiguration.build), fileConfig.build) });
         });
     }
 }

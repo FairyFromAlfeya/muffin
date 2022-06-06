@@ -11,6 +11,7 @@ interface NetworkOptions {
 }
 
 interface BuildOptions {
+  directory?: string;
   compiler?: CompilerOptions;
   linker?: LinkerOptions;
 }
