@@ -13,7 +13,7 @@ export class AbstractRunner {
     const args: string[] = [command];
     const options: SpawnOptions = {
       cwd,
-      stdio: collect ? 'inherit' : undefined,
+      stdio: 'inherit',
       shell: true,
     };
 

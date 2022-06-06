@@ -23,7 +23,7 @@ class AbstractRunner {
             const args = [command];
             const options = {
                 cwd,
-                stdio: collect ? 'inherit' : undefined,
+                stdio: 'inherit',
                 shell: true,
             };
             return new Promise((resolve, reject) => {
