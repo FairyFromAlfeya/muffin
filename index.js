@@ -25,3 +25,4 @@ __exportStar(require("./lib/giver"), exports);
 __exportStar(require("./lib/contract"), exports);
 __exportStar(require("./lib/account"), exports);
 __exportStar(require("./lib/migration"), exports);
+__exportStar(require("./lib/ton"), exports);
