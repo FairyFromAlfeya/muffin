@@ -95,6 +95,8 @@ const genEvertype = async (file: string) => {
           return 'boolean';
         case 'tuple':
           return tupleToType(components);
+        case 'cell':
+          return 'string';
         default:
           return type;
       }

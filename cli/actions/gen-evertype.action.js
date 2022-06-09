@@ -101,6 +101,8 @@ const genEvertype = (file) => __awaiter(void 0, void 0, void 0, function* () {
                     return 'boolean';
                 case 'tuple':
                     return tupleToType(components);
+                case 'cell':
+                    return 'string';
                 default:
                     return type;
             }
