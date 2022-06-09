@@ -8,6 +8,11 @@ export class {{class.name}} {
     const con = await factory.getContract(name);
     this.contract = new Migration().load(con, name);
   }
+
+  get address(): string {
+    return this.contract.address;
+  }
+
   {{#each abi.functions}}
   {{#IfNotEquals name 'constructor'}}
 
