@@ -55,6 +55,9 @@ const solTypeToJs = (type: string): string => {
       return 'BigNumber';
     case 'bool':
       return 'boolean';
+    case 'cell':
+    case 'address':
+      return 'string';
     default:
       return type;
   }
@@ -94,8 +97,10 @@ const genEvertype = async (file: string) => {
         case 'bool':
           return 'boolean';
         case 'tuple':
+        case 'optional(tuple)':
           return tupleToType(components);
         case 'cell':
+        case 'address':
           return 'string';
         default:
           return type;

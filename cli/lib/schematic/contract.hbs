@@ -20,7 +20,7 @@ export class {{class.name}} {
     account: Account,
     {{#each ../inputs}}
     {{#IfNotEquals name 'answerId'}}
-    {{../name}}: {{Type ../type}},
+    {{../name}}: {{Type ../type ../components}},
     {{/IfNotEquals}}
     {{/each}}
   ) {
@@ -41,7 +41,7 @@ export class {{class.name}} {
   {{../name}}Call(
     {{#each ../inputs}}
     {{#IfNotEquals name 'answerId'}}
-    {{../name}}: {{Type ../type}},
+    {{../name}}: {{Type ../type ../components}},
     {{/IfNotEquals}}
     {{/each}}
   ) {
@@ -51,7 +51,7 @@ export class {{class.name}} {
       {{../name}},
       {{/IfNotEquals}}
       {{/each}}
-    }) as any as Promise<{{#each ../outputs}}{{Type type components}}{{/each}}>;
+    }) as any as Promise<{{#each ../outputs}}{{Type type components}}{{else}}void{{/each}}>;
   }
   {{/IfNotEquals}}
   {{/each}}
