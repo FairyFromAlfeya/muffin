@@ -27,7 +27,7 @@ class LinkAction extends abstract_action_1.AbstractAction {
 }
 exports.LinkAction = LinkAction;
 const linkContracts = () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a, _b, _c;
     const configuration = yield (0, load_configuration_1.loadConfiguration)();
     const runner = runners_1.RunnerFactory.create(runners_1.Runner.LINKER, (_b = (_a = configuration === null || configuration === void 0 ? void 0 : configuration.build) === null || _a === void 0 ? void 0 : _a.linker) === null || _b === void 0 ? void 0 : _b.path);
     const runnerBase64 = runners_1.RunnerFactory.create(runners_1.Runner.BASE64);
@@ -38,7 +38,7 @@ const linkContracts = () => __awaiter(void 0, void 0, void 0, function* () {
     console.info();
     for (const file of files) {
         if (file.isFile() && file.name.endsWith('.code')) {
-            yield runner.run(`compile ${(0, path_1.join)(process.cwd(), 'build', file.name)} -o ${(0, path_1.join)(process.cwd(), 'build', file.name.replace('.code', '.tvc'))} `);
+            yield runner.run(`compile --lib ${(_c = configuration === null || configuration === void 0 ? void 0 : configuration.build) === null || _c === void 0 ? void 0 : _c.stdlib} ${(0, path_1.join)(process.cwd(), 'build', file.name)} -o ${(0, path_1.join)(process.cwd(), 'build', file.name.replace('.code', '.tvc'))} `);
             console.info(chalk.blue('[LINKED]'), chalk.green(`${file.name} => ${file.name.replace('.code', '.tvc')}`));
             yield runnerBase64.run(`< ${(0, path_1.join)(process.cwd(), 'build', file.name.replace('.code', '.tvc'))} > ${(0, path_1.join)(process.cwd(), 'build', file.name.replace('.code', '.base64'))}`);
             console.info(chalk.blue('[ENCODED]'), chalk.green(`${file.name} => ${file.name.replace('.code', '.base64')}`));

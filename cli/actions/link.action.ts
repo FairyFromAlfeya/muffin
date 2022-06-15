@@ -30,7 +30,7 @@ const linkContracts = async () => {
 
   for (const file of files) {
     if (file.isFile() && file.name.endsWith('.code')) {
-      await runner.run(`compile ${join(process.cwd(), 'build', file.name)} -o ${join(process.cwd(), 'build', file.name.replace('.code','.tvc'))} `);
+      await runner.run(`compile --lib ${configuration?.build?.stdlib} ${join(process.cwd(), 'build', file.name)} -o ${join(process.cwd(), 'build', file.name.replace('.code','.tvc'))} `);
       console.info(chalk.blue('[LINKED]'), chalk.green(`${file.name} => ${file.name.replace('.code','.tvc')}`));
       await runnerBase64.run(`< ${join(process.cwd(), 'build', file.name.replace('.code','.tvc'))} > ${join(process.cwd(), 'build', file.name.replace('.code','.base64'))}`);
       console.info(chalk.blue('[ENCODED]'), chalk.green(`${file.name} => ${file.name.replace('.code','.base64')}`));

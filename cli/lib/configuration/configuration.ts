@@ -14,6 +14,7 @@ interface BuildOptions {
   directory?: string;
   compiler?: CompilerOptions;
   linker?: LinkerOptions;
+  stdlib?: string;
 }
 
 interface NetworksOptions {

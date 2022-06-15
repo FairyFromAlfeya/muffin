@@ -10,5 +10,6 @@ exports.defaultConfiguration = {
         directory: 'build',
         compiler: { path: (0, path_1.resolve)(__dirname, 'bin', process.arch === 'arm64' ? 'solc-ton' : 'solc-ton-amd64') },
         linker: { path: (0, path_1.resolve)(__dirname, 'bin', process.arch === 'arm64' ? 'tvm-linker' : 'tvm-linker-amd64') },
+        stdlib: (0, path_1.resolve)(__dirname, 'bin', 'stdlib_sol.tvm'),
     },
 };
