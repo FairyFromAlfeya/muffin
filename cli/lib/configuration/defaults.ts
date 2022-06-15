@@ -7,7 +7,7 @@ export const defaultConfiguration: Required<Configuration> = {
   },
   build: {
     directory: 'build',
-    compiler: { path: resolve(__dirname, 'bin', 'solc-ton') },
-    linker: { path: resolve(__dirname, 'bin', 'tvm-linker') },
+    compiler: { path: resolve(__dirname, 'bin', process.arch === 'arm64' ? 'solc-ton' : 'solc-ton-amd64') },
+    linker: { path: resolve(__dirname, 'bin', process.arch === 'arm64' ? 'tvm-linker' : 'tvm-linker-amd64') },
   },
 };
