@@ -6,7 +6,11 @@ class Keys {
   keyPairs: KeyPair[] = [];
   client = new TonClient({ network: { server_address: nodeUrl() } });
 
-  getKeyPairs(): KeyPair[] {
+  async getKeyPairs(): Promise<KeyPair[]> {
+    if (this.keyPairs.length === 0) {
+      await this.setup();
+    }
+
     return this.keyPairs;
   }
 

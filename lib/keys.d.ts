@@ -3,7 +3,7 @@ import { KeyPair } from '@tonclient/core/dist/modules';
 declare class Keys {
     keyPairs: KeyPair[];
     client: TonClient;
-    getKeyPairs(): KeyPair[];
+    getKeyPairs(): Promise<KeyPair[]>;
     setup(): Promise<void>;
 }
 export declare const keys: Keys;
