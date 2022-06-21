@@ -31,10 +31,10 @@ const replaceAll = function (str, search, replacement) {
 };
 const tupleToType = (components) => {
     const obj = {};
-    components.forEach((comp) => { obj[comp.name] = solTypeToJs(comp.type); });
+    components.forEach((comp) => { obj[comp.name] = solTypeToJs(comp.type, comp.components); });
     return replaceAll(replaceAll(JSON.stringify(obj), '"', ''), ',', '; ');
 };
-const solTypeToJs = (type) => {
+const solTypeToJs = (type, components) => {
     switch (type) {
         case 'uint8':
         case 'uint16':
@@ -65,6 +65,8 @@ const solTypeToJs = (type) => {
         case 'cell':
         case 'address':
             return 'string';
+        case 'tuple':
+            return tupleToType(components);
         default:
             return type;
     }

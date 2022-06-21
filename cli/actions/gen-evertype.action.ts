@@ -19,15 +19,21 @@ const replaceAll = function(str: string, search: string, replacement: string): s
   return str.replace(new RegExp(search, 'g'), replacement);
 };
 
-const tupleToType = (components: { name: string; type: string }[]) => {
+type Component = {
+  name: string;
+  type: string;
+  components: Component[];
+};
+
+const tupleToType = (components: Component[]) => {
   const obj: Record<string, string> = {};
 
-  components.forEach((comp) => { obj[comp.name] = solTypeToJs(comp.type); });
+  components.forEach((comp) => { obj[comp.name] = solTypeToJs(comp.type, comp.components); });
 
   return replaceAll(replaceAll(JSON.stringify(obj), '"', ''), ',', '; ');
 }
 
-const solTypeToJs = (type: string): string => {
+const solTypeToJs = (type: string, components: Component[]): string => {
   switch (type) {
     case 'uint8':
     case 'uint16':
@@ -58,6 +64,8 @@ const solTypeToJs = (type: string): string => {
     case 'cell':
     case 'address':
       return 'string';
+    case 'tuple':
+      return tupleToType(components);
     default:
       return type;
   }
