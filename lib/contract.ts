@@ -223,23 +223,18 @@ export class Contract {
   }): Promise<ResultOfEncodeMessage> {
     const encodeParams: ParamsOfEncodeMessage = {
       address: contract.address,
-      abi: {
-        type: 'Contract',
-        value: contract.abi,
-      },
-      call_set: {
-        function_name: method,
-        input: params,
-      },
-      signer: {
-        type: 'None',
-      },
+      abi: { type: 'Contract', value: contract.abi },
+      call_set: { function_name: method, input: params },
+      signer: { type: 'None' },
     };
 
     return this.client.abi.encode_message(this.enrichMessageWithKeys(encodeParams, keyPair));
   }
 
-  enrichMessageWithKeys(encodeParams: ParamsOfEncodeMessage, keyPair?: KeyPair): ParamsOfEncodeMessage {
+  enrichMessageWithKeys(
+    encodeParams: ParamsOfEncodeMessage,
+    keyPair?: KeyPair
+  ): ParamsOfEncodeMessage {
     return !keyPair
       ? encodeParams
       : {

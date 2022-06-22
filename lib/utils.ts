@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { BigNumber } from 'bignumber.js';
 import { join } from 'path';
+import { GiverOptions, KeysOptions } from '../cli/lib/configuration';
 
 export const loadJSONFromFile = (filePath: string): any => {
   return JSON.parse(readFileSync(filePath, 'utf8'));
@@ -20,9 +21,17 @@ export const convertCrystal = (amount: BigNumber.Value, dimension: 'nano' | 'ton
   }
 };
 
+export let network = 'local';
+
+export const setNetwork = (newNetwork: string) => {
+  network = newNetwork;
+}
+
 export const getRandomNonce = (): number => (Math.random() * 64000) | 0;
 
 export const ZERO_ADDRESS = '0:0000000000000000000000000000000000000000000000000000000000000000';
+
+export const EMPTY_TVM_CELL = 'te6ccqEBAQEAAqAAAA==';
 
 export const nodeUrl = (): string => {
   return JSON
@@ -31,5 +40,25 @@ export const nodeUrl = (): string => {
         join(process.cwd(), 'muffin.config.json'),
         { encoding: 'utf-8' }
       )
-    ).networks.local.url;
+    ).networks[network].url;
+}
+
+export const giver = (): GiverOptions => {
+  return JSON
+    .parse(
+      readFileSync(
+        join(process.cwd(), 'muffin.config.json'),
+        { encoding: 'utf-8' }
+      )
+    ).networks[network].giver;
+}
+
+export const keys = (): KeysOptions => {
+  return JSON
+    .parse(
+      readFileSync(
+        join(process.cwd(), 'muffin.config.json'),
+        { encoding: 'utf-8' }
+      )
+    ).networks[network].keys;
 }

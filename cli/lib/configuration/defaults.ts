@@ -4,6 +4,9 @@ import { resolve,  } from 'path';
 export const defaultConfiguration: Required<Configuration> = {
   networks: {
     local: { url: `http://localhost` },
+    devnet: { url: `http://localhost` },
+    testnet: { url: `http://localhost` },
+    mainnet: { url: `http://localhost` },
   },
   build: {
     directory: 'build',

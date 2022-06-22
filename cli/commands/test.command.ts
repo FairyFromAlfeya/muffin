@@ -1,6 +1,7 @@
 import { program } from 'commander';
 import { AbstractCommand } from './abstract.command';
 import { Input } from './command.input';
+import { setNetwork } from '../../lib/utils';
 
 export class TestCommand extends AbstractCommand {
   public load() {
@@ -8,8 +9,13 @@ export class TestCommand extends AbstractCommand {
       .command('test [script]')
       .alias('t')
       .description('Test solidity contracts with Mocha')
-      .action(async (script: string) => {
+      .option('-n, --network [network]', 'Specify the network', 'local')
+      .action(async (script: string, command: any) => {
         const options: Input[] = [];
+        options.push({ name: 'network', value: command.network });
+
+        setNetwork(command.network);
+
         const inputs: Input[] = [];
         inputs.push({ name: 'script', value: script });
 

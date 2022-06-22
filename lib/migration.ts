@@ -11,28 +11,26 @@ export class Migration {
     this._loadMigrationLog();
   }
 
-  _loadMigrationLog() {
+  _loadMigrationLog(): void {
     if (existsSync(this.log_path)) {
       const data = readFileSync(this.log_path, 'utf8');
       if (data) this.migration_log = JSON.parse(data);
     }
   }
 
-  _saveMigrationLog() {
+  _saveMigrationLog(): void {
     writeFileSync(this.log_path, JSON.stringify(this.migration_log));
   }
 
-  load(contract: any, alias: string) {
+  load(contract: any, alias: string): void {
     if (this.migration_log[alias] !== undefined) {
       contract.setAddress(this.migration_log[alias].address);
     } else {
       throw new Error(`Contract ${alias} not found in the migration`);
     }
-
-    return contract;
   }
 
-  store(contract: any, alias: string) {
+  store(contract: any, alias: string): void {
     this.migration_log = {
       ...this.migration_log,
       [alias]: {

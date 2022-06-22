@@ -1,6 +1,6 @@
 import { TonClient } from '@tonclient/core';
 import { KeyPair } from '@tonclient/core/dist/modules';
-import { nodeUrl } from './utils';
+import { nodeUrl, keys as keysCfg } from './utils';
 
 class Keys {
   keyPairs: KeyPair[] = [];
@@ -15,7 +15,8 @@ class Keys {
   }
 
   async setup(): Promise<void> {
-    const keysHDPaths = [...Array(20).keys()]
+    const key = keysCfg();
+    const keysHDPaths = [...Array(key.amount).keys()]
       .map((i) => 'm/44\'/396\'/0\'/0/INDEX'.replace('INDEX', i.toString()));
 
     if (process.platform !== 'darwin') {
@@ -24,7 +25,7 @@ class Keys {
           return this.client.crypto.mnemonic_derive_sign_keys({
             dictionary: 1,
             word_count: 12,
-            phrase: 'illegal object novel cattle drink replace oblige online curtain radio blossom legend',
+            phrase: key.phrase,
             path,
           });
         }),
@@ -35,7 +36,7 @@ class Keys {
           await this.client.crypto.mnemonic_derive_sign_keys({
             dictionary: 1,
             word_count: 12,
-            phrase: 'illegal object novel cattle drink replace oblige online curtain radio blossom legend',
+            phrase: key.phrase,
             path,
           }),
         );

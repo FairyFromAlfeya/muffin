@@ -64,15 +64,12 @@ export class Account extends Contract {
       method: 'sendTransaction',
       params: {
         dest: contract.address,
-        value:
-          value === undefined
-            ? convertCrystal('2', 'nano')
-            : value,
+        value: value || convertCrystal('2', 'nano'),
         bounce: true,
         flags: 0,
         payload: body,
       },
-      keyPair: keyPair === undefined ? this.keyPair : keyPair,
+      keyPair: keyPair || this.keyPair,
     });
   }
 }

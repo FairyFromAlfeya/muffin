@@ -11,7 +11,7 @@ class Factory {
     const base64 = loadBase64FromFile(`${resolvedPath}/${name}.base64`);
     const abi = loadJSONFromFile(`${resolvedPath}/${name}.abi.json`);
 
-    const { code } = await this.client.boc.get_code_from_tvc({ tvc: base64, });
+    const { code } = await this.client.boc.get_code_from_tvc({ tvc: base64 });
 
     return new Contract({
       abi,
@@ -27,7 +27,7 @@ class Factory {
     return this.initializeContract(name, resolvedBuildPath);
   }
 
-  async getAccount(name = 'Account', build = 'build'): Promise<Account> {
+  async getAccount(name = 'Wallet', build = 'build'): Promise<Account> {
     const resolvedBuildPath = resolve(process.cwd(), build);
 
     const contract = await this.initializeContract(name, resolvedBuildPath);

@@ -12,14 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestCommand = void 0;
 const commander_1 = require("commander");
 const abstract_command_1 = require("./abstract.command");
+const utils_1 = require("../../lib/utils");
 class TestCommand extends abstract_command_1.AbstractCommand {
     load() {
         commander_1.program
             .command('test [script]')
             .alias('t')
             .description('Test solidity contracts with Mocha')
-            .action((script) => __awaiter(this, void 0, void 0, function* () {
+            .option('-n, --network [network]', 'Specify the network', 'local')
+            .action((script, command) => __awaiter(this, void 0, void 0, function* () {
             const options = [];
+            options.push({ name: 'network', value: command.network });
+            (0, utils_1.setNetwork)(command.network);
             const inputs = [];
             inputs.push({ name: 'script', value: script });
             yield this.action.handle(inputs, options);

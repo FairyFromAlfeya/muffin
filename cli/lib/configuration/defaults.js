@@ -5,6 +5,9 @@ const path_1 = require("path");
 exports.defaultConfiguration = {
     networks: {
         local: { url: `http://localhost` },
+        devnet: { url: `http://localhost` },
+        testnet: { url: `http://localhost` },
+        mainnet: { url: `http://localhost` },
     },
     build: {
         directory: 'build',

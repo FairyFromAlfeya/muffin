@@ -4,6 +4,6 @@ export declare class Migration {
     constructor(log_path?: string);
     _loadMigrationLog(): void;
     _saveMigrationLog(): void;
-    load(contract: any, alias: string): any;
+    load(contract: any, alias: string): void;
     store(contract: any, alias: string): void;
 }

@@ -1,21 +1,12 @@
 import { Contract } from './contract';
-import { convertCrystal, getRandomNonce, nodeUrl } from './utils';
+import { convertCrystal, getRandomNonce, nodeUrl, giver } from './utils';
 import { AbiContract, ResultOfEncodeMessage, ResultOfProcessMessage, TonClient } from '@tonclient/core';
 import { KeyPair, ParamsOfEncodeMessage } from '@tonclient/core/dist/modules';
 
 export class Giver {
   client = new TonClient({ network: { server_address: nodeUrl() } });
   giver = new Contract({
-    abi: {
-      "ABI version": 1,
-      "functions": [
-        { "name": "constructor", "inputs": [], "outputs": [] },
-        { "name": "sendGrams", "inputs": [ {"name":"dest","type":"address"}, {"name":"amount","type":"uint64"} ], "outputs": [] }
-      ],
-      "events": [],
-      "data": []
-    },
-    address: '0:841288ed3b55d9cdafa806807f02a0ae0c169aa5edfe88a789a6482429756a94',
+    ...giver(),
     name: 'Giver',
   });
 
@@ -37,10 +28,7 @@ export class Giver {
 
     if (contract.autoRandomNonce) {
       if (contract.abi.data.find((e: { name: string }) => e.name === '_randomNonce')) {
-        extendedInitParams._randomNonce =
-          extendedInitParams._randomNonce === undefined
-            ? getRandomNonce()
-            : extendedInitParams._randomNonce;
+        extendedInitParams._randomNonce = extendedInitParams._randomNonce || getRandomNonce();
       }
     }
 
@@ -53,19 +41,13 @@ export class Giver {
 
     await this.giver?.run({
       method: 'sendGrams',
-      params: {
-        dest: address,
-        amount,
-      },
+      params: { dest: address, amount },
     });
 
     // Wait for receiving grams
     await this.client.net.wait_for_collection({
       collection: 'accounts',
-      filter: {
-        id: { eq: address },
-        balance: { gt: `0x0` },
-      },
+      filter: { id: { eq: address }, balance: { gt: `0x0` } },
       result: 'balance',
     });
 
@@ -87,7 +69,13 @@ export class Giver {
     return contract;
   }
 
-  async waitForRunTransaction({ message, abi }: { message: { message: string }; abi: AbiContract }): Promise<ResultOfProcessMessage> {
+  async waitForRunTransaction({
+    message,
+    abi
+  }: {
+    message: { message: string };
+    abi: AbiContract;
+  }): Promise<ResultOfProcessMessage> {
     const { shard_block_id } =
       await this.client.processing.send_message({
         message: message.message,
@@ -98,10 +86,7 @@ export class Giver {
       message: message.message,
       shard_block_id,
       send_events: false,
-      abi: {
-        type: 'Contract',
-        value: abi,
-      },
+      abi: { type: 'Contract', value: abi },
     });
   }
 
@@ -117,27 +102,21 @@ export class Giver {
     keyPair: KeyPair;
   }): Promise<ResultOfEncodeMessage> {
     const encodeParams: ParamsOfEncodeMessage = {
-      abi: {
-        type: 'Contract',
-        value: contract.abi,
-      },
-      deploy_set: {
-        tvc: contract.base64,
-        initial_data: initParams,
-      },
-      call_set: {
-        function_name: 'constructor',
-        input: constructorParams || {},
-      },
-      signer: {
-        type: 'None',
-      },
+      abi: { type: 'Contract', value: contract.abi },
+      deploy_set: { tvc: contract.base64, initial_data: initParams },
+      call_set: { function_name: 'constructor', input: constructorParams || {} },
+      signer: { type: 'None' },
     };
 
-    return this.client.abi.encode_message(this.enrichMessageWithKeys(encodeParams, keyPair));
+    return this.client.abi.encode_message(
+      this.enrichMessageWithKeys(encodeParams, keyPair),
+    );
   }
 
-  enrichMessageWithKeys(encodeParams: ParamsOfEncodeMessage, keyPair?: KeyPair): ParamsOfEncodeMessage {
+  enrichMessageWithKeys(
+    encodeParams: ParamsOfEncodeMessage,
+    keyPair?: KeyPair
+  ): ParamsOfEncodeMessage {
     return !keyPair
       ? encodeParams
       : {
