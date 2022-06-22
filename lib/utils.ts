@@ -34,7 +34,7 @@ export const nodeUrl = (): string => {
         join(process.cwd(), 'muffin.config.json'),
         { encoding: 'utf-8' }
       )
-    ).networks[process.argv[2]].url;
+    ).networks[process.argv[2] || 'local'].url;
 }
 
 export const giver = (): GiverOptions => {
@@ -44,7 +44,7 @@ export const giver = (): GiverOptions => {
         join(process.cwd(), 'muffin.config.json'),
         { encoding: 'utf-8' }
       )
-    ).networks[process.argv[2]].giver;
+    ).networks[process.argv[2] || 'local'].giver;
 }
 
 export const keys = (): KeysOptions => {
@@ -54,5 +54,5 @@ export const keys = (): KeysOptions => {
         join(process.cwd(), 'muffin.config.json'),
         { encoding: 'utf-8' }
       )
-    ).networks[process.argv[2]].keys;
+    ).networks[process.argv[2] || 'local'].keys;
 }
