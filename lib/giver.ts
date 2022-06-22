@@ -23,6 +23,19 @@ export class Giver {
   },
     amount = convertCrystal(10, 'nano'),
   ): Promise<Contract> {
+    const key = giver().key;
+
+    if (key) {
+      const keyPair =
+        await this.client.crypto.nacl_sign_keypair_from_secret_key({
+          secret: key,
+        });
+
+      keyPair.secret = keyPair.secret.slice(0, 64);
+
+      this.giver.setKeyPair(keyPair);
+    }
+
     // Extend init params with random _randomNonce if it's found in ABI and autoRandomNonce is enabled
     const extendedInitParams = initParams || {};
 
