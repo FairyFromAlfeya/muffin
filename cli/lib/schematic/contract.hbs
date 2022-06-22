@@ -5,8 +5,8 @@ export class {{class.name}} {
   private contract: Contract;
 
   async load(name: string) {
-    const con = await factory.getContract(name);
-    this.contract = new Migration().load(con, name);
+    this.contract = await factory.getContract(name);
+    new Migration().load(this.contract, name);
   }
 
   get address(): string {
