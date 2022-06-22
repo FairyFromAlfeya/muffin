@@ -21,12 +21,6 @@ export const convertCrystal = (amount: BigNumber.Value, dimension: 'nano' | 'ton
   }
 };
 
-export let network = 'local';
-
-export const setNetwork = (newNetwork: string) => {
-  network = newNetwork;
-}
-
 export const getRandomNonce = (): number => (Math.random() * 64000) | 0;
 
 export const ZERO_ADDRESS = '0:0000000000000000000000000000000000000000000000000000000000000000';
@@ -40,7 +34,7 @@ export const nodeUrl = (): string => {
         join(process.cwd(), 'muffin.config.json'),
         { encoding: 'utf-8' }
       )
-    ).networks[network].url;
+    ).networks[process.argv[2]].url;
 }
 
 export const giver = (): GiverOptions => {
@@ -50,7 +44,7 @@ export const giver = (): GiverOptions => {
         join(process.cwd(), 'muffin.config.json'),
         { encoding: 'utf-8' }
       )
-    ).networks[network].giver;
+    ).networks[process.argv[2]].giver;
 }
 
 export const keys = (): KeysOptions => {
@@ -60,5 +54,5 @@ export const keys = (): KeysOptions => {
         join(process.cwd(), 'muffin.config.json'),
         { encoding: 'utf-8' }
       )
-    ).networks[network].keys;
+    ).networks[process.argv[2]].keys;
 }

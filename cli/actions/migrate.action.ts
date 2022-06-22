@@ -11,7 +11,10 @@ export class MigrateAction extends AbstractAction {
     console.info(EMOJIS.ROCKET, EMOJIS.ROCKET, EMOJIS.ROCKET, chalk.bgBlue(`    Deploying ${inputs.find(o => o.name === 'script')!.value}    `), EMOJIS.ROCKET, EMOJIS.ROCKET, EMOJIS.ROCKET);
     console.info();
 
-    const child = await MigrateAction.spawnChildProcess(inputs.find(o => o.name === 'script')!.value);
+    const child = await MigrateAction.spawnChildProcess(
+      inputs.find(o => o.name === 'script')!.value,
+      options.find(o => o.name === 'network')!.value as string
+    );
 
     child.on('exit', () => {
       console.info();
@@ -21,8 +24,8 @@ export class MigrateAction extends AbstractAction {
     });
   }
 
-  private static spawnChildProcess(file: boolean | string) {
-    return spawn('ts-node', [`migrations/${file}`], {
+  private static spawnChildProcess(file: boolean | string, network: string) {
+    return spawn('ts-node', [`migrations/${file}`, network], {
       stdio: 'inherit',
       shell: true,
     });

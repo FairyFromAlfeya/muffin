@@ -20,7 +20,7 @@ class MigrateAction extends abstract_action_1.AbstractAction {
             console.info();
             console.info(ui_1.EMOJIS.ROCKET, ui_1.EMOJIS.ROCKET, ui_1.EMOJIS.ROCKET, chalk.bgBlue(`    Deploying ${inputs.find(o => o.name === 'script').value}    `), ui_1.EMOJIS.ROCKET, ui_1.EMOJIS.ROCKET, ui_1.EMOJIS.ROCKET);
             console.info();
-            const child = yield MigrateAction.spawnChildProcess(inputs.find(o => o.name === 'script').value);
+            const child = yield MigrateAction.spawnChildProcess(inputs.find(o => o.name === 'script').value, options.find(o => o.name === 'network').value);
             child.on('exit', () => {
                 console.info();
                 console.info(ui_1.EMOJIS.ROCKET, ui_1.EMOJIS.ROCKET, ui_1.EMOJIS.ROCKET, chalk.bgBlue(`   ${inputs.find(o => o.name === 'script').value} was deployed  `), ui_1.EMOJIS.ROCKET, ui_1.EMOJIS.ROCKET, ui_1.EMOJIS.ROCKET);
@@ -29,8 +29,8 @@ class MigrateAction extends abstract_action_1.AbstractAction {
             });
         });
     }
-    static spawnChildProcess(file) {
-        return (0, child_process_1.spawn)('ts-node', [`migrations/${file}`], {
+    static spawnChildProcess(file, network) {
+        return (0, child_process_1.spawn)('ts-node', [`migrations/${file}`, network], {
             stdio: 'inherit',
             shell: true,
         });
